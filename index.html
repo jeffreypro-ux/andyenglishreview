@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andy 英语口语 · 课堂复习站</title>
+<!--
+═══════════════════════════════════════════════════════════════════
+  复习网站 · 单文件版
+  老师使用方式：每次把课堂逐字稿发给助手，助手会生成新课程模块，
+  复制粘贴到下方 LESSONS 数组末尾即可（文件中已有现成模板注释）。
+  子页面 #/words 为「医疗器械高频词100」，单词与例句均带发音按钮。
+═══════════════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  --bg:#f7f4ee; --paper:#fffdf8; --ink:#2b2620; --ink-soft:#6b6357;
+  --brand:#c2562b; --brand-soft:#f6e3d8; --accent:#2f5d50; --accent-soft:#e2ede8;
+  --gold:#b8892e; --line:#e8e0d2; --shadow:0 2px 10px rgba(60,45,25,.07);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:280px;flex-shrink:0;background:var(--paper);border-right:1px solid var(--line);
+  padding:28px 20px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 8px 20px;border-bottom:1px dashed var(--line)}
+.brand .logo{font-size:26px}
+.brand h1{font-size:19px;margin-top:6px;letter-spacing:.5px}
+.brand p{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+.nav-label{font-size:12px;color:var(--ink-soft);letter-spacing:2px;margin:20px 8px 10px}
+.lesson-link{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;
+  text-decoration:none;color:var(--ink);margin-bottom:6px;transition:.2s;border:1px solid transparent;cursor:pointer}
+.lesson-link:hover{background:#f3ede1}
+.lesson-link.active{background:var(--brand-soft);border-color:var(--brand)}
+.lesson-link .num{width:34px;height:34px;border-radius:10px;background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:15px}
+.lesson-link .num.ic{font-size:17px}
+.lesson-link.active .num{background:var(--brand)}
+.lesson-link .meta b{display:block;font-size:14.5px;line-height:1.4}
+.lesson-link .meta span{font-size:12px;color:var(--ink-soft)}
+.sidebar .update{margin-top:22px;padding:14px;background:var(--accent-soft);border-radius:12px;
+  font-size:12.5px;color:var(--accent)}
+.main{flex:1;padding:40px 48px 80px;max-width:960px;margin:0 auto;width:100%}
+.crumb{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+.crumb a{color:var(--brand);text-decoration:none;cursor:pointer}
+.lesson-head{background:linear-gradient(135deg,#fffdf8,#f8efe4);border:1px solid var(--line);
+  border-radius:var(--radius);padding:30px 34px;box-shadow:var(--shadow);margin-bottom:28px}
+.lesson-head .tag{display:inline-block;background:var(--brand);color:#fff;font-size:12.5px;
+  padding:3px 12px;border-radius:99px;margin-bottom:12px;letter-spacing:1px}
+.lesson-head h2{font-size:27px;line-height:1.35}
+.lesson-head .date{font-size:13.5px;color:var(--ink-soft);margin-top:8px}
+.section{margin-bottom:30px}
+.section>h3{font-size:19px;display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.section>h3 .dot{width:10px;height:10px;border-radius:50%;background:var(--brand);flex-shrink:0}
+.section>h3 small{font-size:13px;color:var(--ink-soft);font-weight:400}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px;box-shadow:var(--shadow)}
+.card h4{font-size:15px;color:var(--brand);margin-bottom:6px}
+.card p{font-size:13.5px;color:var(--ink-soft)}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.vocab{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--accent);
+  border-radius:12px;padding:14px 18px}
+.vocab .w{font-family:Georgia,serif;font-size:17px;font-weight:700}
+.vocab .ph{font-size:12.5px;color:var(--gold);font-family:Georgia,serif;margin-left:6px}
+.vocab .cn{font-size:14px;margin-top:2px}
+.vocab .note{font-size:12px;color:var(--ink-soft);margin-top:4px;background:var(--accent-soft);
+  display:inline-block;padding:1px 8px;border-radius:6px}
+.phrase{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+  padding:13px 18px;margin-bottom:10px;box-shadow:var(--shadow)}
+.phrase .en{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--ink)}
+.phrase .cn{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+.phrase .note{font-size:12px;color:var(--accent);margin-top:4px}
+.fix{background:#fdf3f0;border:1px solid #f0cfc4;border-radius:12px;padding:14px 18px;margin-bottom:12px}
+.fix .row{font-size:14.5px;margin:3px 0}
+.fix .bad{color:#b3402a;text-decoration:line-through}
+.fix .arr{color:var(--ink-soft);margin:0 8px;font-size:12px}
+.fix .good{color:var(--accent);font-weight:700}
+.fix .cn{font-size:13px;color:var(--ink-soft)}
+.essay{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 28px;box-shadow:var(--shadow)}
+.essay .en{font-family:Georgia,serif;font-size:16.5px;line-height:1.9}
+.essay .en b{color:var(--brand)}
+.essay .cn{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:14px;color:var(--ink-soft)}
+.tips{display:grid;gap:10px}
+.tip{display:flex;gap:12px;background:var(--accent-soft);border-radius:12px;padding:14px 18px}
+.tip .ic{font-size:19px;flex-shrink:0}
+.tip h4{font-size:14.5px;margin-bottom:2px;color:var(--accent)}
+.tip p{font-size:13.5px}
+.dlg{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;box-shadow:var(--shadow)}
+.dlg-line{display:flex;gap:12px;margin-bottom:12px}
+.dlg-line .who{width:56px;flex-shrink:0;text-align:right;font-size:13px;font-weight:700;
+  color:var(--brand);padding-top:2px}
+.dlg-line.me .who{color:var(--accent)}
+.dlg-line .bubble{background:#f6f1e6;border-radius:12px;padding:8px 16px;flex:1}
+.dlg-line.me .bubble{background:var(--accent-soft)}
+.dlg-line .en{font-family:Georgia,serif;font-size:15px;font-weight:600}
+.dlg-line .cn{font-size:12.5px;color:var(--ink-soft)}
+.hero{text-align:center;padding:50px 20px 36px}
+.hero .logo{font-size:52px}
+.hero h2{font-size:32px;margin-top:10px}
+.hero p{color:var(--ink-soft);margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto;font-size:15px}
+.stat-row{display:flex;justify-content:center;gap:16px;margin:30px 0 40px;flex-wrap:wrap}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 30px;text-align:center;box-shadow:var(--shadow)}
+.stat b{font-size:26px;color:var(--brand);display:block}
+.stat span{font-size:12.5px;color:var(--ink-soft)}
+.lesson-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;
+  max-width:760px;margin:0 auto}
+.lc{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:.2s;cursor:pointer;display:block}
+.lc:hover{transform:translateY(-3px);border-color:var(--brand)}
+.lc .num{font-size:13px;color:var(--gold);letter-spacing:1px}
+.lc h3{font-size:18px;margin:8px 0 6px}
+.lc p{font-size:13px;color:var(--ink-soft)}
+.lc .go{color:var(--brand);font-size:13.5px;margin-top:12px;display:inline-block;font-weight:600}
+.lc.special{background:linear-gradient(135deg,#2f5d50,#3d7264);color:#fff;border:none}
+.lc.special .num{color:#ffe2b0}
+.lc.special p{color:#d8e8e2}
+.lc.special .go{color:#ffd9a0}
+.pager{display:flex;justify-content:space-between;margin-top:40px;gap:14px}
+.pager a{flex:1;text-decoration:none;background:var(--paper);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px;color:var(--ink);transition:.2s;cursor:pointer}
+.pager a:hover{border-color:var(--brand)}
+.pager a span{font-size:12px;color:var(--ink-soft);display:block}
+.pager a b{font-size:14.5px}
+.pager a.next{text-align:right}
+.footer-note{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:46px}
+/* ── 100词页面 ── */
+.search-box{margin:16px 0 4px;position:relative}
+.search-box input{width:100%;padding:13px 18px 13px 44px;font-size:15px;border:1.5px solid var(--line);
+  border-radius:12px;background:#fff;font-family:inherit;outline:none}
+.search-box input:focus{border-color:var(--brand)}
+.search-box .si{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:17px}
+.words-wrap{display:grid;gap:8px}
+.vrow{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  box-shadow:var(--shadow)}
+.vrow .r1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.vrow .r2{display:flex;align-items:baseline;gap:8px;margin-top:5px;padding-top:5px;
+  border-top:1px dashed var(--line);flex-wrap:wrap}
+.spk{border:none;background:var(--brand-soft);border-radius:8px;font-size:14px;cursor:pointer;
+  padding:3px 8px;flex-shrink:0;transition:.15s;line-height:1.4}
+.spk:hover{background:var(--brand);transform:scale(1.08)}
+.spk.sm{background:var(--accent-soft);font-size:12.5px;padding:2px 7px}
+.spk.sm:hover{background:var(--accent)}
+.vrow .ww{font-family:Georgia,serif;font-size:17px;font-weight:700}
+.vrow .ph{font-size:12.5px;color:var(--gold);font-family:Georgia,serif}
+.vrow .cn{font-size:13.5px;color:var(--ink)}
+.vrow .exen{font-family:Georgia,serif;font-size:14px;color:var(--accent);font-weight:600}
+.vrow .excn{font-size:12.5px;color:var(--ink-soft)}
+.hidden{display:none!important}
+@media(max-width:820px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--line)}
+  .main{padding:24px 18px 60px}
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">📒</div>
+      <h1 id="siteTitle">英语口语复习站</h1>
+      <p id="siteSub">每节课一页 · 持续更新</p>
+    </div>
+    <div class="nav-label">学习目录</div>
+    <nav id="nav"></nav>
+    <div class="update">🌱 课程持续更新中，新笔记整理好后本页会自动多出一节课～</div>
+  </aside>
+  <main class="main" id="app"></main>
+</div>
+
+<script>
+/* ═══════════ 站点配置 ═══════════ */
+const SITE = {
+  title: "Andy 英语口语 · 课堂复习站",
+  student: "Andy",
+  teacher: "Mike 老师",
+  intro: "每一节课的重点、单词、句型、对话示范都会整理在这里。上课前翻一翻、作业前看一看，把课堂内容真正变成自己的东西。"
+};
+
+/* ═══════════ 课程数据 ═══════════ */
+const LESSONS = [
+{
+  id: 1,
+  date: "2026-09-13",
+  title: "英语口语专项提升：疑问句 + 朗读节奏 + 情景对话",
+  subtitle: "Jensen Huang 演讲朗读 · 特殊疑问句/一般疑问句 · 旅游场景对话",
+  sections: [
+    { type:"phrases", title:"🌅 开场输出练习 · How was your week?",
+      items:[
+        {en:"— How was your week?", cn:"— 这周过得怎么样？", note:"回答可以更口语化：Not bad. / Nothing special. / Just casual.（日常、平常）"},
+        {en:"Actually, I didn't have anything special this week.", cn:"其实，我这周没什么特别的。", note:"⭐ actually 放句首更口语化"},
+        {en:"And I have too much work to do.", cn:"而且我有太多工作要做。"},
+        {en:"But I finished it smoothly.", cn:"但我还是顺利完成了。"},
+        {en:"So my mentor praised me.", cn:"所以我的导师夸奖了我。", note:"⚠️ praise /preɪz/ 夸奖（不是 pressed）；也可用 appreciate / admire / compliment"},
+        {en:"And I think this week is not bad overall.", cn:"总的来说，这周还不错。"}
+      ]},
+    { type:"vocab", title:"📚 朗读材料生词（Jensen Huang 斯坦福毕业演讲节选）",
+      items:[
+        {word:"expectation", phon:"/ˌekspekˈteɪʃn/", cn:"n. 预期，期望", note:"动词 expect"},
+        {word:"resilience", phon:"/rɪˈzɪliəns/", cn:"n. 抗挫力，韧性", note:""},
+        {word:"setback", phon:"/ˈsetbæk/", cn:"n. 挫折", note:""},
+        {word:"character", phon:"/ˈkærəktə(r)/", cn:"n. 品格，性格", note:"⚠️ 不是 carrot（胡萝卜）"},
+        {word:"wish upon", phon:"", cn:"祝愿（正式书面语）", note:"wish upon you ample doses of..."},
+        {word:"ample", phon:"/ˈæmpl/", cn:"adj. 大量的，丰富的", note:""},
+        {word:"dose", phon:"/dəʊs/", cn:"n. （药的）一剂，剂量", note:""},
+        {word:"institution", phon:"/ˌɪnstɪˈtjuːʃn/", cn:"n. 机构，院校", note:""},
+        {word:"tuition", phon:"/tjuˈɪʃn/", cn:"n. 学费", note:""}
+      ]},
+    { type:"essay", title:"🗣️ 朗读材料（演讲节选 + 大意）",
+      en:"I think one of my great advantages is that I have very low expectations… People with very high expectations have very low resilience. And unfortunately, resilience matters in success. I don't know how to teach it to you except for I hope suffering happens to you… you want to refine the <b>character</b> of your company, you want greatness out of them, and greatness is not intelligence. Greatness comes from character, and character isn't formed out of smart people, it's formed out of people who suffered… I <b>wish upon</b> you <b>ample doses</b> of pain and suffering.",
+      cn:"📖 段落大意：黄仁勋认为年轻人不应抱过高期望——期望越高，抗挫力（resilience）越低，而抗挫力对成功至关重要。伟大不来自聪明，而来自品格；品格是在苦难中磨炼出来的。"},
+    { type:"tips", title:"🎵 朗读要点（Mike 老师提醒）",
+      items:[
+        {ic:"⏸️", h:"按意群停顿", p:"逗号、句号要停；一个词块（3~5 个词）停一停，如 most of the Stanford graduates / have very high expectations"},
+        {ic:"📈", h:"节奏有起伏", p:"不要平铺直叙地「读」，要真的像「说话」一样，快慢结合"},
+        {ic:"💧", h:"读前先喝水", p:"润湿喉咙，发音更有磁性，读起来也更顺"},
+        {ic:"🔁", h:"先听原声再跟读", p:"模仿原视频的节奏和语调，读熟到能流利说完陌生文章，口语基础就上来了"}
+      ]},
+    { type:"cards", title:"❓ 语法一：特殊疑问句（开放式提问）",
+      items:[
+        {h:"公式", p:"疑问词 + 助动词 + 主语 + 动词原形"},
+        {h:"疑问词 5W1H", p:"what 什么 / who 谁 / where 哪里 / when 何时 / why 为什么 / which 哪一个 / how 怎样"},
+        {h:"可直接接名词", p:"what kind of 哪一类 / which 哪一种 + 名词 → What kind of devices…? Which product model…?"},
+        {h:"助动词", p:"do / does（实义动词句）; am / is / are（be 动词句）; 情态动词 can / could / will / would / should / shall"}
+      ]},
+    { type:"phrases", title:"💼 特殊疑问句 · 外贸实战例句",
+      items:[
+        {en:"Where do you usually find new suppliers?", cn:"你通常在哪里找新供应商？", note:"he 则用 does：Where does he usually find…?"},
+        {en:"Where can you find new suppliers?", cn:"你在哪里可以找到新供应商？", note:"can 表能力"},
+        {en:"Where could you find a new channel?", cn:"您在哪里可以找到新的渠道？", note:"could 更委婉，适合问客户"},
+        {en:"What kind of medical devices are you looking for?", cn:"你在寻找哪一类医疗设备？"},
+        {en:"Which product model fits your project best?", cn:"哪一款产品型号最适配你的项目？"},
+        {en:"Who is responsible for purchasing on your team?", cn:"你们团队谁负责采购？", note:"responsible for purchasing 负责采购"},
+        {en:"When do you expect to finalize this project?", cn:"你预计什么时候敲定这个项目？", note:"expect 预期；finalize 敲定"},
+        {en:"Why is the performance of this device so important to you?", cn:"为什么这台设备的性能对你们如此重要？"},
+        {en:"How do you evaluate a new supplier of medical products?", cn:"你们如何评估医疗产品的新供应商？", note:"evaluate /ɪˈvæljueɪt/ 评估"},
+        {en:"How do you deal with unexpected situations?", cn:"你如何处理突发（意料之外）的情况？", note:"unexpected = un（不）+ expected"}
+      ]},
+    { type:"phrases", title:"✅ 语法二：一般疑问句（Yes/No 问句）",
+      note:"把助动词 / 情态动词 / be 动词提到句首即可",
+      items:[
+        {en:"Are you interested in our medical devices?", cn:"你对我们的医疗设备感兴趣吗？", note:"主语是 you → 用 are"},
+        {en:"Is your team ready for the new project?", cn:"你们团队准备好新项目了吗？"},
+        {en:"Could you share your target requirements?", cn:"您可以告知您的目标需求吗？", note:"⭐ share 比 tell 更委婉、更商务"},
+        {en:"Would you consider our test samples?", cn:"您会考虑我们的测试样品吗？"},
+        {en:"Should we send you the quotation this week?", cn:"我们这周应该把报价发给您吗？"},
+        {en:"Will you place the order next month?", cn:"你们下个月会下订单吗？", note:"place the order 下单"},
+        {en:"Shall we arrange an online meeting?", cn:"要不我们安排一次线上会议？", note:"⚠️ shall 只能用于 I / we"}
+      ]},
+    { type:"vocab", title:"🧰 高频口语表达（商业 + 日常通用）",
+      items:[
+        {word:"I want to…", phon:"", cn:"我想……", note:"I wanna go home."},
+        {word:"I'm not used to…", phon:"", cn:"我不习惯……", note:"I'm not used to this weather."},
+        {word:"I'm not sure if…", phon:"", cn:"我不确定我能否……", note:"商务谈判不能拍板时的缓冲句"},
+        {word:"I'm dying to…", phon:"", cn:"我超想做……", note:"只用于亲密朋友间"},
+        {word:"I hope I can…", phon:"", cn:"我希望我能……", note:"让步、表达善意"},
+        {word:"obviously", phon:"/ˈɒbviəsli/", cn:"显然，很明显", note:"老外高频口头禅"},
+        {word:"but you know what", phon:"", cn:"不过你知道吗", note:"转折，引出自己的诉求"},
+        {word:"exactly", phon:"", cn:"没错，正是", note:"先肯定客户的话"},
+        {word:"awesome", phon:"/ˈɔːsəm/", cn:"太棒了", note:"回答 How are you? 也可以用"},
+        {word:"tough", phon:"", cn:"棘手的，难熬的", note:"My recent job is tough."},
+        {word:"convenient", phon:"", cn:"方便的", note:"It's convenient to do…"},
+        {word:"reliable", phon:"", cn:"可靠的", note:"reliable supplier 可靠的供应商"},
+        {word:"complicated", phon:"", cn:"复杂的", note:"solve complicated situations"}
+      ]},
+    { type:"dialogue", title:"🧳 情景对话示范：旅游景点偶遇外国朋友",
+      lines:[
+        {who:"Andy", en:"Hi, I'm Andy. Nice to meet you.", cn:"（先自报姓名，不要上来就问对方名字）"},
+        {who:"Mike", en:"Yes, Andy. Nice talking to you too.", cn:""},
+        {who:"Andy", en:"You look great. It's your first time traveling in Beijing?", cn:"（开场加一句陈述/夸赞，再自然提问）"},
+        {who:"Mike", en:"Yeah, this is my first time in Beijing.", cn:""},
+        {who:"Andy", en:"Sounds great. What impressed you most during your trip?", cn:"（最让你印象深刻的是什么？）"},
+        {who:"Mike", en:"The Great Wall. It is astonishing — so huge, it's amazing.", cn:""},
+        {who:"Andy", en:"Is it different from what you imagined before coming here?", cn:""},
+        {who:"Mike", en:"Yeah, big difference! I only saw pictures on Google. I thought it was big, but not THIS big.", cn:""},
+        {who:"Andy", en:"There are many delicious foods in this city. Have you tried Peking Duck yet?", cn:""},
+        {who:"Mike", en:"Yeah, I tried it twice! I'd recommend it to my friends. But I don't like the smell of the bean juice (豆汁).", cn:""},
+        {who:"Andy", en:"Would you recommend Peking Duck to your friends back in the UK?", cn:""},
+        {who:"Mike", en:"Absolutely! Will definitely try it again next time I come to China.", cn:""},
+        {who:"Andy", en:"Have a nice day!", cn:""},
+        {who:"Mike", en:"You too, Andy. So kind of you!", cn:""}
+      ]},
+    { type:"tips", title:"💡 情景对话技巧总结",
+      items:[
+        {ic:"👋", h:"先开场白，别直接甩问题", p:"Hi, I'm Andy. Nice to meet you. 日常场景越 casual 越好"},
+        {ic:"🙅", h:"不要「查户口」式连环问", p:"问题要围绕情绪和交流，不然会显得无聊、过度打听"},
+        {ic:"🌉", h:"回应对方答案，拉近距离", p:"比如对方说来自巴西，就聊足球、咖啡"},
+        {ic:"🔄", h:"用 What if… 转换话题", p:"聊熟之后设想情景：What if your girlfriend gets angry during the trip? 自然不唐突"}
+      ]},
+    { type:"tips", title:"📌 课后任务 & 下节课预告",
+      items:[
+        {ic:"🎧", h:"听力作业", p:"每周一节课，大部分时间靠自己做作业"},
+        {ic:"❓", h:"带着问题来上课", p:"把一周积累的问题攒到课上一次性问；没问题就当堂测试"},
+        {ic:"📖", h:"下节课内容", p:"陈述句造句法（今天已学会提问，下节学怎么「说」）"},
+        {ic:"🔁", h:"持续练习", p:"疑问句框架已掌握，接下来就靠多读多练形成肌肉记忆"}
+      ]}
+  ]
+},
+{
+  id: 2,
+  date: "2026-09-19",
+  title: "陈述句造句：四句话表达框架 + iPhone Duo 朗读",
+  subtitle: "browse/scroll 辨析 · 公司实战问句复习 · 日常四大场景模板",
+  sections: [
+    { type:"phrases", title:"🌅 热身对话 · How was your week?",
+      items:[
+        {en:"— How was your week?", cn:"— 这周过得怎么样？", note:"Andy: So so tired. 可以再说说原因"},
+        {en:"I have to learn a lot of new knowledge about medical devices.", cn:"我要学很多医疗器械的新知识。"},
+        {en:"The workflow of the insufflation system is a little difficult to understand.", cn:"气腹机的工作流程有点难理解。", note:"insufflation system 气腹机（建立气腹的设备）"},
+        {en:"Technology is evolving fast, so I need to keep learning.", cn:"技术日新月异，所以我需要不断学习。", note:"⭐ 「日新月异」= Technology is evolving fast / changing rapidly"},
+        {en:"I am still a newcomer in this industry.", cn:"我在这个行业还是个新人。", note:"Mike 鼓励：Take your time. 慢慢来，不用急"}
+      ]},
+    { type:"vocab", title:"📚 朗读材料生词（iPhone Duo 产品介绍视频）",
+      items:[
+        {word:"component", phon:"/kəmˈpəʊnənt/", cn:"n. 部件，元件", note:"铰链由 100 多个部件组成"},
+        {word:"pixel", phon:"/ˈpɪksəl/", cn:"n. 像素", note:"48-megapixel selfies 4800 万像素自拍"},
+        {word:"hinge", phon:"/hɪndʒ/", cn:"n. 铰链", note:""},
+        {word:"torque", phon:"/tɔːk/", cn:"n. 扭矩", note:"the right amount of torque 恰到好处的扭矩"},
+        {word:"display", phon:"/dɪˈspleɪ/", cn:"n. 显示屏", note:"inner display 内屏"},
+        {word:"scroll", phon:"/skrəʊl/", cn:"v. 往下滑，刷（视频）", note:"scroll through videos / scroll down"},
+        {word:"browse", phon:"/braʊz/", cn:"v. 浏览（网页/目录/屏幕）", note:"browser n. 浏览器"},
+        {word:"snap", phon:"/snæp/", cn:"n./v. 咔哒声；合上", note:"a satisfying snap 令人满足的咔哒声"},
+        {word:"dual batteries", phon:"/ˈdjuːəl ˈbætriz/", cn:"双电池", note:""},
+        {word:"vapor chamber", phon:"/ˈveɪpə ˈtʃeɪmbə/", cn:"散热均热板", note:""}
+      ]},
+    { type:"cards", title:"🔍 browse vs scroll 辨析（Mike 讲解）",
+      items:[
+        {h:"scroll", p:"往下滑、刷视频刷手机：scroll through videos / scroll down"},
+        {h:"browse", p:"浏览屏幕、网页、目录：browse the catalog / browse our website"},
+        {h:"💡 医疗场景用法", p:"医生在屏幕上 browse 查看穿刺针的位置：browse where the needle is"},
+        {h:"✅ Andy 佳句", p:"Distributors can browse our catalog of laparoscopic devices online. 分销商可在线浏览我们的腹腔镜产品目录"}
+      ]},
+    { type:"phrases", title:"💼 问句复习 + 公司场景实战问句",
+      items:[
+        {en:"Do you work with laparoscopic medical devices?", cn:"你们做腹腔镜医疗器械吗？", note:"一般疑问句"},
+        {en:"Have you visited our product showroom before?", cn:"您以前参观过我们的产品展厅吗？", note:"⚠️ 现在完成时：Have you visited/seen…"},
+        {en:"What kind of medical products are you interested in?", cn:"您对哪类医疗产品感兴趣？", note:"特殊疑问句"},
+        {en:"Where is your company located?", cn:"贵公司位于哪里？"},
+        {en:"How long have you been in this industry?", cn:"您在这个行业多久了？"},
+        {en:"When will you go back to your homeland?", cn:"您什么时候回国？"},
+        {en:"Could I show you our new insufflation system?", cn:"我可以给您展示一下我们的新气腹机吗？", note:"showroom / catalog 场景超实用"},
+        {en:"Would you like to have a look at our product catalog?", cn:"您想看看我们的产品目录吗？"}
+      ]},
+    { type:"cards", title:"⭐ 本课核心：陈述句「四句话框架」",
+      items:[
+        {h:"第 1 句 · 情绪 + 事实", p:"先讲感受再讲事：You know, today was so busy and I feel so tired."},
+        {h:"第 2 句 · 数字 + 清单", p:"说清做了几件事：I did three big things today. First… Second… Third…"},
+        {h:"第 3 句 · 挑一件说原因", p:"挑感触最深的一件，用 because 展开一句"},
+        {h:"第 4 句 · 收尾", p:"回到情绪或下一步：I am so tired, I just want to go to bed. / Next time I want to…"},
+        {h:"⚠️ 寒暄原则", p:"社交场景说 3~4 句就够。说五六句太详细，反而让人觉得不想跟你聊"},
+        {h:"🎯 刻意训练", p:"先把框架练成默认系统（像电脑的 XP 系统），熟练后自然会蹦出自己的句子"}
+      ]},
+    { type:"dialogue", title:"🎬 四大场景实战（提问 + Andy 范文）",
+      lines:[
+        {who:"提问", en:"What do you do today? / How was your day?", cn:"今天过得怎么样？"},
+        {who:"Andy", en:"Today I read medical product documents at home. It was meaningful because I improved my product knowledge. After that, I want to practice my English speaking.", cn:"场景① 今天做了什么"},
+        {who:"提问", en:"What did you eat today?", cn:"今天吃了什么？"},
+        {who:"Andy", en:"For lunch I had a delicious meal. I ate rice with chicken. It was simple because I wanted an easy meal at home. Next time I want to eat dumplings.", cn:"场景② 吃饭（for breakfast / lunch / dinner）"},
+        {who:"提问", en:"What do you like doing in your free time?", cn:"空闲时间喜欢做什么？"},
+        {who:"Andy", en:"In my free time I love going cycling. I usually ride my bike in the park on weekends. It is wonderful because it clears my mind. This weekend I want to ride to the lake.", cn:"场景③ 爱好（free time / spare time）"},
+        {who:"提问", en:"What is life like in your city? / Where do you live?", cn:"你所在的城市生活怎么样？"},
+        {who:"Andy", en:"I live in Suzhou, so I usually explore classical gardens on my holidays. The good thing is it has beautiful ancient scenery, but it is quite dry in summer. I prefer quiet old streets to crowded shopping malls because they help me connect with history. If I have more time, I want to ride my bike along the city canals.", cn:"场景④ 城市（prefer A to B；connect with history 是 Mike 升级版）"}
+      ]},
+    { type:"fix", title:"🔧 本课错句纠正",
+      items:[
+        {bad:"I ate rice with chickens.", good:"I ate rice with chicken.", cn:"chicken 表示「鸡肉」时是不可数名词"},
+        {bad:"I wanted a easy meal.", good:"I wanted an easy meal.", cn:"easy 以元音音素开头，要用 an"},
+        {bad:"For lunch I felt comfortable.", good:"The food was delicious. / I feel great about this food.", cn:"comfortable 不能描述食物；delicious / yummy / I feel + 形容词 + about… 万能句"},
+        {bad:"ride a more far distance", good:"ride a longer distance / ride farther", cn:"修饰距离用 far → farther；距离「更长」用 longer"},
+        {bad:"Have you see our showroom before?", good:"Have you seen / visited our showroom before?", cn:"现在完成时：have + 过去分词"}
+      ]},
+    { type:"tips", title:"📌 课后作业",
+      items:[
+        {ic:"✍️", h:"框架练习", p:"用「四句话框架」说一说你明天一天的安排（口头 + 书面各一遍）"},
+        {ic:"🎤", h:"朗读作业", p:"iPhone Duo 产品介绍稿，模仿视频语调起伏，3 分钟内讲完"},
+        {ic:"🔗", h:"造句作业", p:"用 browse 和 scroll 各造 2 个贴合医疗器械产品的句子"},
+        {ic:"📖", h:"词汇", p:"components / pixel / hinge / torque 等电子产品词，介绍医疗设备时同样用得上"}
+      ]}
+  ]
+}
+/* ⬇️ 新增第 3 课模板（复制后修改 id / date / title / sections 即可）
+,
+{
+  id: 3,
+  date: "2026-09-26",
+  title: "第 2 课标题",
+  subtitle: "一句话副标题",
+  sections: [
+    { type:"cards", title:"🎯 本课重点", items:[ {h:"小标题", p:"内容"} ] },
+    { type:"vocab", title:"📚 单词", items:[ {word:"word", phon:"/音标/", cn:"中文", note:"备注"} ] },
+    { type:"phrases", title:"🗣️ 高频句", items:[ {en:"英文句", cn:"中文", note:"备注"} ] },
+    { type:"fix", title:"🔧 错句纠正", items:[ {bad:"错误", good:"正确", cn:"中文"} ] },
+    { type:"dialogue", title:"💬 对话", lines:[ {who:"Andy", en:"英文", cn:"中文"} ] },
+    { type:"tips", title:"💡 提醒", items:[ {ic:"⭐", h:"标题", p:"内容"} ] }
+  ]
+}
+⬆️ 模板结束 */
+];
+
+/* ═══════════ 医疗器械高频词 100（单词+例句均带发音） ═══════════ */
+const VOCAB100 = [
+{ c:"🏢 公司与业务", items:[
+ {w:"manufacturer", ph:"/ˌmænjuˈfæktʃərə(r)/", cn:"n. 制造商", ex:"We are a medical device manufacturer based in Shenzhen.", excn:"我们是总部位于深圳的医疗器械制造商。"},
+ {w:"distributor", ph:"/dɪˈstrɪbjətə(r)/", cn:"n. 经销商，分销商", ex:"We are looking for a reliable distributor in Brazil.", excn:"我们正在巴西寻找可靠的经销商。"},
+ {w:"supplier", ph:"/səˈplaɪə(r)/", cn:"n. 供应商", ex:"How do you evaluate a new supplier of medical products?", excn:"你们如何评估医疗产品的新供应商？"},
+ {w:"wholesaler", ph:"/ˈhəʊlseɪlə(r)/", cn:"n. 批发商", ex:"The wholesaler orders our products in large quantities.", excn:"批发商大批量订购我们的产品。"},
+ {w:"retailer", ph:"/ˈriːteɪlə(r)/", cn:"n. 零售商", ex:"This retailer sells home-care devices online.", excn:"这家零售商在网上销售家用护理设备。"},
+ {w:"procurement", ph:"/prəˈkjʊəmənt/", cn:"n. 采购", ex:"Who is responsible for procurement on your team?", excn:"你们团队谁负责采购？"},
+ {w:"tender", ph:"/ˈtendə(r)/", cn:"n. 招标，投标", ex:"The hospital announced a tender for two hundred infusion pumps.", excn:"该医院发布了 200 台输液泵的招标公告。"},
+ {w:"inventory", ph:"/ˈɪnvəntri/", cn:"n. 库存，存货", ex:"We keep enough inventory for urgent orders.", excn:"我们保有足够的库存以应对紧急订单。"},
+ {w:"warehouse", ph:"/ˈweəhaʊs/", cn:"n. 仓库", ex:"Our warehouse is located near the port.", excn:"我们的仓库位于港口附近。"},
+ {w:"logistics", ph:"/ləˈdʒɪstɪks/", cn:"n. 物流，后勤", ex:"Our logistics partner ships products worldwide.", excn:"我们的物流伙伴向全球发货。"}
+]},
+{ c:"💓 监护与生命支持", items:[
+ {w:"patient monitor", ph:"/ˈpeɪʃnt ˈmɒnɪtə(r)/", cn:"n. 病人监护仪", ex:"The patient monitor displays heart rate and blood pressure.", excn:"病人监护仪显示心率和血压。"},
+ {w:"ventilator", ph:"/ˈventɪleɪtə(r)/", cn:"n. 呼吸机", ex:"The ventilator keeps the patient breathing.", excn:"呼吸机帮助病人维持呼吸。"},
+ {w:"defibrillator", ph:"/diːˈfɪbrɪleɪtə(r)/", cn:"n. 除颤器", ex:"The nurse used a defibrillator to save the patient.", excn:"护士使用除颤器抢救了病人。"},
+ {w:"infusion pump", ph:"/ɪnˈfjuːʒn pʌmp/", cn:"n. 输液泵", ex:"The infusion pump controls the flow of medicine.", excn:"输液泵控制药液的流速。"},
+ {w:"syringe", ph:"/sɪˈrɪndʒ/", cn:"n. 注射器", ex:"This syringe is for single use only.", excn:"这支注射器仅供一次性使用。"},
+ {w:"catheter", ph:"/ˈkæθətə(r)/", cn:"n. 导管", ex:"The doctor inserted a catheter into the vein.", excn:"医生将导管插入静脉。"},
+ {w:"stent", ph:"/stent/", cn:"n. （血管）支架", ex:"The stent keeps the artery open.", excn:"支架使动脉保持畅通。"},
+ {w:"pacemaker", ph:"/ˈpeɪsmeɪkə(r)/", cn:"n. 心脏起搏器", ex:"A pacemaker regulates the heartbeat.", excn:"起搏器调节心跳节律。"},
+ {w:"stretcher", ph:"/ˈstretʃə(r)/", cn:"n. 担架", ex:"The patient was carried away on a stretcher.", excn:"病人被用担架抬走了。"},
+ {w:"suction unit", ph:"/ˈsʌkʃn ˈjuːnɪt/", cn:"n. 吸引器", ex:"The suction unit removes fluids during surgery.", excn:"手术中吸引器用于清除液体。"}
+]},
+{ c:"🔬 影像与诊断", items:[
+ {w:"ultrasound", ph:"/ˈʌltrəsaʊnd/", cn:"n. 超声；超声设备", ex:"The ultrasound machine gives clear images.", excn:"这台超声机成像清晰。"},
+ {w:"X-ray machine", ph:"/ˈeks reɪ məˈʃiːn/", cn:"n. X 光机", ex:"The X-ray machine helps doctors find bone fractures.", excn:"X 光机帮助医生发现骨折。"},
+ {w:"CT scanner", ph:"/ˌsiː ˈtiː ˈskænə(r)/", cn:"n. CT 扫描仪", ex:"The CT scanner produces detailed body images.", excn:"CT 扫描仪生成详细的人体影像。"},
+ {w:"MRI scanner", ph:"/ˌem ɑːr ˈaɪ ˈskænə(r)/", cn:"n. 核磁共振仪", ex:"The MRI scanner uses magnetic fields.", excn:"核磁共振仪利用磁场成像。"},
+ {w:"endoscope", ph:"/ˈendəskəʊp/", cn:"n. 内窥镜", ex:"The endoscope allows doctors to see inside the body.", excn:"内窥镜让医生看到体内情况。"},
+ {w:"pulse oximeter", ph:"/pʌls ɒkˈsɪmɪtə(r)/", cn:"n. 血氧仪", ex:"The pulse oximeter measures blood oxygen levels.", excn:"血氧仪测量血氧饱和度。"},
+ {w:"thermometer", ph:"/θəˈmɒmɪtə(r)/", cn:"n. 体温计", ex:"The digital thermometer gives results in seconds.", excn:"电子体温计几秒钟就能出结果。"},
+ {w:"blood pressure monitor", ph:"/blʌd ˈpreʃə ˈmɒnɪtə(r)/", cn:"n. 血压计", ex:"The blood pressure monitor is easy to use at home.", excn:"这款血压计在家使用很方便。"},
+ {w:"glucometer", ph:"/ɡluːˈkɒmɪtə(r)/", cn:"n. 血糖仪", ex:"Diabetics use a glucometer to check blood sugar.", excn:"糖尿病患者用血糖仪检测血糖。"},
+ {w:"ECG machine", ph:"/ˌiː siː ˈdʒiː məˈʃiːn/", cn:"n. 心电图机", ex:"The ECG machine records the electrical activity of the heart.", excn:"心电图机记录心脏的电活动。"}
+]},
+{ c:"🔪 手术器械", items:[
+ {w:"scalpel", ph:"/ˈskælpəl/", cn:"n. 手术刀", ex:"The surgeon made a cut with a scalpel.", excn:"外科医生用手术刀切开。"},
+ {w:"forceps", ph:"/ˈfɔːseps/", cn:"n. 手术钳，镊子", ex:"The doctor held the tissue with forceps.", excn:"医生用钳子夹住组织。"},
+ {w:"hemostat", ph:"/ˈhiːməstæt/", cn:"n. 止血钳", ex:"The hemostat stops bleeding during surgery.", excn:"止血钳在手术中用于止血。"},
+ {w:"surgical scissors", ph:"/ˈsɜːdʒɪkl ˈsɪzəz/", cn:"n. 手术剪", ex:"Surgical scissors are used to cut tissue.", excn:"手术剪用于剪切组织。"},
+ {w:"clamp", ph:"/klæmp/", cn:"n. 夹钳", ex:"The clamp holds the tube in place.", excn:"夹钳把管子固定住。"},
+ {w:"retractor", ph:"/rɪˈtræktə(r)/", cn:"n. 牵开器", ex:"The retractor holds the incision open.", excn:"牵开器撑开切口。"},
+ {w:"trocar", ph:"/ˈtrəʊkɑː(r)/", cn:"n. 套管针", ex:"The trocar gives access for laparoscopic surgery.", excn:"套管针为腹腔镜手术建立通道。"},
+ {w:"speculum", ph:"/ˈspekjələm/", cn:"n. 窥器", ex:"The doctor examined the patient with a speculum.", excn:"医生用窥器为患者做检查。"},
+ {w:"needle holder", ph:"/ˈniːdl ˈhəʊldə(r)/", cn:"n. 持针器", ex:"The needle holder grips the suture needle.", excn:"持针器夹持缝合针。"},
+ {w:"surgical blade", ph:"/ˈsɜːdʒɪkl bleɪd/", cn:"n. 手术刀片", ex:"The surgical blade is made of stainless steel.", excn:"手术刀片由不锈钢制成。"}
+]},
+{ c:"🧤 耗材与护理", items:[
+ {w:"gloves", ph:"/ɡlʌvz/", cn:"n. 手套", ex:"Please wear gloves before the examination.", excn:"检查前请戴上手套。"},
+ {w:"surgical mask", ph:"/ˈsɜːdʒɪkl mɑːsk/", cn:"n. 外科口罩", ex:"The surgeon wears a surgical mask in the operating room.", excn:"外科医生在手术室佩戴医用口罩。"},
+ {w:"gown", ph:"/ɡaʊn/", cn:"n. 手术衣，隔离衣", ex:"The medical staff put on sterile gowns.", excn:"医护人员穿上无菌手术衣。"},
+ {w:"bandage", ph:"/ˈbændɪdʒ/", cn:"n. 绷带", ex:"She wrapped the wound with a bandage.", excn:"她用绷带包扎伤口。"},
+ {w:"gauze", ph:"/ɡɔːz/", cn:"n. 纱布", ex:"Clean the cut with gauze and saline.", excn:"用纱布和生理盐水清洗伤口。"},
+ {w:"dressing", ph:"/ˈdresɪŋ/", cn:"n. 敷料", ex:"Change the dressing every day.", excn:"每天都要更换敷料。"},
+ {w:"cannula", ph:"/ˈkænjələ/", cn:"n. 留置针，插管", ex:"The nurse placed a cannula in his arm.", excn:"护士在他手臂上留置了静脉针。"},
+ {w:"drainage bag", ph:"/ˈdreɪnɪdʒ bæɡ/", cn:"n. 引流袋", ex:"The drainage bag collects fluid after surgery.", excn:"引流袋收集术后液体。"},
+ {w:"adhesive tape", ph:"/ədˈhiːsɪv teɪp/", cn:"n. 医用胶带", ex:"Fix the gauze with adhesive tape.", excn:"用医用胶带固定纱布。"},
+ {w:"urine bag", ph:"/ˈjʊərɪn bæɡ/", cn:"n. 尿袋", ex:"The urine bag must be emptied regularly.", excn:"尿袋需要定期排空。"}
+]},
+{ c:"🦷 牙科", items:[
+ {w:"dental chair", ph:"/ˈdentl tʃeə(r)/", cn:"n. 牙科椅", ex:"The dental chair can be adjusted electrically.", excn:"这把牙科椅可以电动调节。"},
+ {w:"dental drill", ph:"/ˈdentl drɪl/", cn:"n. 牙钻", ex:"The dental drill removes decayed teeth.", excn:"牙钻用于去除蛀牙部分。"},
+ {w:"scaler", ph:"/ˈskeɪlə(r)/", cn:"n. 洁牙器", ex:"The scaler cleans plaque from teeth.", excn:"洁牙器清除牙齿上的牙菌斑。"},
+ {w:"dental mirror", ph:"/ˈdentl ˈmɪrə(r)/", cn:"n. 牙科口镜", ex:"The dentist checked my teeth with a dental mirror.", excn:"牙医用口镜检查我的牙齿。"},
+ {w:"impression tray", ph:"/ɪmˈpreʃn treɪ/", cn:"n. 印模托盘", ex:"The impression tray takes a mold of the teeth.", excn:"印模托盘用于取牙齿模型。"},
+ {w:"braces", ph:"/ˈbreɪsɪz/", cn:"n. 牙套，牙齿矫正器", ex:"She has worn braces for two years.", excn:"她戴牙套已经两年了。"},
+ {w:"denture", ph:"/ˈdentʃə(r)/", cn:"n. 假牙", ex:"My grandfather wears a denture.", excn:"我爷爷戴假牙。"},
+ {w:"crown", ph:"/kraʊn/", cn:"n. 牙冠", ex:"The dentist put a crown on the broken tooth.", excn:"牙医给那颗坏牙装了牙冠。"},
+ {w:"dental floss", ph:"/ˈdentl flɒs/", cn:"n. 牙线", ex:"Use dental floss to clean between teeth.", excn:"用牙线清洁牙缝。"},
+ {w:"orthodontic", ph:"/ˌɔːθəˈdɒntɪk/", cn:"adj. 正畸的，牙齿矫正的", ex:"Our orthodontic products are popular in Europe.", excn:"我们的正畸产品在欧洲很受欢迎。"}
+]},
+{ c:"🩼 康复与辅助", items:[
+ {w:"crutches", ph:"/ˈkrʌtʃɪz/", cn:"n. 拐杖", ex:"He walked with crutches after the injury.", excn:"受伤后他拄着拐杖走路。"},
+ {w:"walker", ph:"/ˈwɔːkə(r)/", cn:"n. 助行器", ex:"The old man uses a walker to move around.", excn:"这位老人用助行器走动。"},
+ {w:"knee brace", ph:"/niː breɪs/", cn:"n. 护膝", ex:"The knee brace supports the joint.", excn:"护膝为膝关节提供支撑。"},
+ {w:"splint", ph:"/splɪnt/", cn:"n. 夹板", ex:"The doctor put a splint on his broken arm.", excn:"医生给他骨折的手臂上了夹板。"},
+ {w:"prosthesis", ph:"/prɒsˈθiːsɪs/", cn:"n. 假肢", ex:"The prosthesis helps amputees walk again.", excn:"假肢帮助截肢者重新行走。"},
+ {w:"orthosis", ph:"/ɔːˈθəʊsɪs/", cn:"n. 矫形器", ex:"The orthosis corrects body alignment.", excn:"矫形器矫正身体力线。"},
+ {w:"hearing aid", ph:"/ˈhɪərɪŋ eɪd/", cn:"n. 助听器", ex:"The hearing aid makes sounds louder.", excn:"助听器放大声音。"},
+ {w:"cervical collar", ph:"/ˈsɜːvɪkl ˈkɒlə(r)/", cn:"n. 颈托", ex:"He wore a cervical collar after the accident.", excn:"事故后他戴了颈托。"},
+ {w:"compression stocking", ph:"/kəmˈpreʃn ˈstɒkɪŋ/", cn:"n. 弹力袜", ex:"Compression stockings improve blood flow.", excn:"弹力袜促进血液循环。"},
+ {w:"commode", ph:"/kəˈməʊd/", cn:"n. 坐便椅", ex:"The commode is useful for elderly patients.", excn:"坐便椅对老年病人很实用。"}
+]},
+{ c:"🧪 检验与 IVD", items:[
+ {w:"reagent", ph:"/riˈeɪdʒənt/", cn:"n. 试剂", ex:"The reagent reacts with the blood sample.", excn:"试剂与血液样本发生反应。"},
+ {w:"test kit", ph:"/test kɪt/", cn:"n. 检测试剂盒", ex:"The test kit gives results in fifteen minutes.", excn:"这个检测试剂盒 15 分钟出结果。"},
+ {w:"assay", ph:"/ˈæseɪ/", cn:"n. 测定，化验", ex:"The assay measures hormone levels.", excn:"该测定用于检测激素水平。"},
+ {w:"centrifuge", ph:"/ˈsentrɪfjuːdʒ/", cn:"n. 离心机", ex:"The centrifuge spins samples at high speed.", excn:"离心机高速旋转样本。"},
+ {w:"microscope", ph:"/ˈmaɪkrəskəʊp/", cn:"n. 显微镜", ex:"The microscope shows cells clearly.", excn:"显微镜能清晰显示细胞。"},
+ {w:"pipette", ph:"/pɪˈpet/", cn:"n. 移液器", ex:"Use the pipette to add the solution.", excn:"用移液器加入溶液。"},
+ {w:"slide", ph:"/slaɪd/", cn:"n. 载玻片", ex:"Place the sample on the slide.", excn:"把样本放在载玻片上。"},
+ {w:"test tube", ph:"/test tjuːb/", cn:"n. 试管", ex:"The blood is stored in a test tube.", excn:"血液储存在试管中。"},
+ {w:"swab", ph:"/swɒb/", cn:"n. 拭子", ex:"The nurse took a throat swab.", excn:"护士采集了咽拭子。"},
+ {w:"specimen", ph:"/ˈspesɪmən/", cn:"n. 样本，标本", ex:"The specimen was sent to the laboratory.", excn:"样本被送往实验室。"}
+]},
+{ c:"📋 质量 · 法规 · 认证", items:[
+ {w:"certification", ph:"/ˌsɜːtɪfɪˈkeɪʃn/", cn:"n. 认证", ex:"Our products have CE certification.", excn:"我们的产品拥有 CE 认证。"},
+ {w:"CE marking", ph:"/ˌsiː ˈiː ˈmɑːkɪŋ/", cn:"n. CE 标志（欧盟）", ex:"The CE marking is required in Europe.", excn:"进入欧洲市场需要 CE 标志。"},
+ {w:"FDA", ph:"/ˌef diː ˈeɪ/", cn:"n.（美国）食品药品监督管理局", ex:"The product is under FDA review.", excn:"该产品正在接受 FDA 审查。"},
+ {w:"ISO 13485", ph:"/ˌaɪ es əʊ wʌn θriː fɔː eɪt faɪv/", cn:"n. 医疗器械质量管理体系", ex:"Our factory is ISO 13485 certified.", excn:"我们的工厂通过了 ISO 13485 认证。"},
+ {w:"quality control", ph:"/ˈkwɒləti kənˈtrəʊl/", cn:"n. 质量控制", ex:"Every batch passes strict quality control.", excn:"每一批产品都经过严格质检。"},
+ {w:"sterile", ph:"/ˈsteraɪl/", cn:"adj. 无菌的", ex:"The syringe is packed in a sterile pouch.", excn:"注射器封装在无菌袋中。"},
+ {w:"sterilization", ph:"/ˌsterəlaɪˈzeɪʃn/", cn:"n. 灭菌", ex:"Sterilization kills all microorganisms.", excn:"灭菌能杀灭所有微生物。"},
+ {w:"biocompatibility", ph:"/ˌbaɪəʊkəmpætɪˈbɪləti/", cn:"n. 生物相容性", ex:"Biocompatibility testing ensures patient safety.", excn:"生物相容性测试保障患者安全。"},
+ {w:"clinical trial", ph:"/ˈklɪnɪkl ˈtraɪəl/", cn:"n. 临床试验", ex:"The clinical trial involved five hundred patients.", excn:"该临床试验纳入了 500 名患者。"},
+ {w:"registration", ph:"/ˌredʒɪˈstreɪʃn/", cn:"n. 注册", ex:"Product registration is required in every country.", excn:"产品在每个国家销售都需要注册。"}
+]},
+{ c:"✨ 产品描述高频词", items:[
+ {w:"portable", ph:"/ˈpɔːtəbl/", cn:"adj. 便携的", ex:"This portable monitor is ideal for ambulances.", excn:"这款便携监护仪非常适合救护车。"},
+ {w:"lightweight", ph:"/ˈlaɪtweɪt/", cn:"adj. 轻量的", ex:"The lightweight design reduces hand fatigue.", excn:"轻量化设计减轻手部疲劳。"},
+ {w:"disposable", ph:"/dɪˈspəʊzəbl/", cn:"adj. 一次性的", ex:"Disposable gloves prevent cross infection.", excn:"一次性手套防止交叉感染。"},
+ {w:"reusable", ph:"/ˌriːˈjuːzəbl/", cn:"adj. 可重复使用的", ex:"Reusable instruments lower long-term costs.", excn:"可重复使用的器械降低长期成本。"},
+ {w:"durable", ph:"/ˈdjʊərəbl/", cn:"adj. 耐用的", ex:"The device housing is durable and shockproof.", excn:"设备外壳坚固耐用且防震。"},
+ {w:"ergonomic", ph:"/ˌɜːɡəˈnɒmɪk/", cn:"adj. 人体工学的", ex:"The ergonomic handle fits the hand well.", excn:"人体工学手柄贴合手部。"},
+ {w:"accurate", ph:"/ˈækjərət/", cn:"adj. 精准的", ex:"The sensor gives accurate readings.", excn:"传感器读数精准。"},
+ {w:"latex-free", ph:"/ˈleɪteks friː/", cn:"adj. 不含乳胶的", ex:"These gloves are latex-free and hypoallergenic.", excn:"这些手套不含乳胶，不易过敏。"},
+ {w:"user-friendly", ph:"/ˌjuːzə ˈfrendli/", cn:"adj. 易用的，人性化的", ex:"The user-friendly interface is easy to learn.", excn:"人性化的界面很容易上手。"},
+ {w:"calibrated", ph:"/ˈkælɪbreɪtɪd/", cn:"adj. 已校准的", ex:"Each unit is calibrated before shipment.", excn:"每台设备发货前都经过校准。"}
+]}
+];
+
+/* ═══════════ 发音引擎（浏览器内置语音，无需联网） ═══════════ */
+let __voice = null;
+function pickVoice(){
+  try{
+    const vs = speechSynthesis.getVoices();
+    __voice = vs.find(v=>/^en/i.test(v.lang) && /female|samantha|google|zira|aria/i.test(v.name))
+           || vs.find(v=>/^en/i.test(v.lang)) || null;
+  }catch(e){}
+}
+if(typeof speechSynthesis !== "undefined"){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(t, slow){
+  if(typeof speechSynthesis === "undefined"){ alert("当前浏览器不支持语音朗读，请用 Chrome / Edge / Safari 打开"); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t);
+  u.lang = "en-US"; u.rate = slow ? 0.7 : 0.88;
+  if(__voice) u.voice = __voice;
+  speechSynthesis.speak(u);
+}
+
+/* ═══════════ 渲染引擎 ═══════════ */
+const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const T = {
+  cards: (s)=>`<div class="section"><h3><span class="dot"></span>${s.title}${s.note?`<small>${s.note}</small>`:""}</h3><div class="cards">${s.items.map(i=>`<div class="card"><h4>${i.h}</h4><p>${i.p}</p></div>`).join("")}</div></div>`,
+  vocab: (s)=>`<div class="section"><h3><span class="dot"></span>${s.title}</h3><div class="vocab-grid">${s.items.map(i=>`<div class="vocab"><div><span class="w">${i.word}</span><span class="ph">${i.phon||""}</span></div><div class="cn">${i.cn}</div>${i.note?`<div class="note">${i.note}</div>`:""}</div>`).join("")}</div></div>`,
+  phrases:(s)=>`<div class="section"><h3><span class="dot"></span>${s.title}${s.note?`<small>${s.note}</small>`:""}</h3>${s.items.map(i=>`<div class="phrase"><div class="en">${i.en}</div><div class="cn">${i.cn}</div>${i.note?`<div class="note">💡 ${i.note}</div>`:""}</div>`).join("")}</div>`,
+  fix:  (s)=>`<div class="section"><h3><span class="dot"></span>${s.title}</h3>${s.items.map(i=>`<div class="fix"><div class="row"><span class="bad">${i.bad}</span><span class="arr">→</span><span class="good">${i.good}</span></div><div class="cn">${i.cn}</div></div>`).join("")}</div>`,
+  essay:(s)=>`<div class="section"><h3><span class="dot"></span>${s.title}</h3><div class="essay"><div class="en">${s.en}</div><div class="cn">${s.cn}</div></div></div>`,
+  tips: (s)=>`<div class="section"><h3><span class="dot"></span>${s.title}</h3><div class="tips">${s.items.map(i=>`<div class="tip"><div class="ic">${i.ic}</div><div><h4>${i.h}</h4><p>${i.p}</p></div></div>`).join("")}</div></div>`,
+  dialogue:(s)=>`<div class="section"><h3><span class="dot"></span>${s.title}</h3><div class="dlg">${s.lines.map((l,idx)=>`<div class="dlg-line ${idx%2?"me":""}"><div class="who">${esc(l.who)}</div><div class="bubble"><div class="en">${l.en}</div>${l.cn?`<div class="cn">${l.cn}</div>`:""}</div></div>`).join("")}</div></div>`
+};
+
+function shortTitle(t){ const s = t.split("：")[0]; return s.length>16 ? s.slice(0,16)+"…" : t; }
+
+function renderNav(active){
+  let h = LESSONS.map(l=>
+    `<a class="lesson-link ${active==="lesson"+l.id?"active":""}" data-href="#/lesson/${l.id}">
+       <div class="num">${l.id}</div>
+       <div class="meta"><b>${esc(shortTitle(l.title))}</b><span>${esc(l.date)}</span></div>
+     </a>`).join("");
+  h += `<a class="lesson-link ${active==="words"?"active":""}" data-href="#/words">
+       <div class="num ic">📖</div>
+       <div class="meta"><b>医疗器械高频词 100</b><span>单词 + 例句 · 可发音</span></div>
+     </a>`;
+  document.getElementById("nav").innerHTML = h;
+}
+
+function lessonPage(l){
+  const idx = LESSONS.findIndex(x=>x.id===l.id);
+  const prev = LESSONS[idx-1], next = LESSONS[idx+1];
+  return `
+    <div class="crumb"><a data-href="#/">🏠 首页</a> / 第 ${l.id} 课</div>
+    <div class="lesson-head">
+      <span class="tag">LESSON ${l.id}</span>
+      <h2>${esc(l.title)}</h2>
+      <div class="date">📅 ${esc(l.date)} ｜ 👨‍🏫 ${esc(SITE.teacher)} ｜ 👤 ${esc(SITE.student)}</div>
+      ${l.subtitle?`<div class="date" style="margin-top:4px">${esc(l.subtitle)}</div>`:""}
+    </div>
+    ${l.sections.map(s=>(T[s.type]||T.cards)(s)).join("")}
+    <div class="pager">
+      ${prev?`<a data-href="#/lesson/${prev.id}"><span>← 上一课</span><b>第 ${prev.id} 课 · ${esc(shortTitle(prev.title))}</b></a>`:"<a></a>"}
+      <a class="next" data-href="#/words"><span>词汇专题 →</span><b>📖 医疗器械高频词 100</b></a>
+    </div>
+    <div class="footer-note">📒 ${esc(SITE.title)} · 每节课一页 · 持续更新</div>`;
+}
+
+function wordsPage(){
+  const total = VOCAB100.reduce((n,g)=>n+g.items.length,0);
+  return `
+    <div class="crumb"><a data-href="#/">🏠 首页</a> / 高频词 100</div>
+    <div class="lesson-head">
+      <span class="tag">📖 词汇专题</span>
+      <h2>医疗器械高频词 100</h2>
+      <div class="date">共 ${total} 个高频词 ｜ 10 大分类 ｜ 单词 + 例句均带 🔊 发音</div>
+      <div class="date" style="margin-top:4px">点 🔊 听发音（自动放慢语速，方便跟读模仿）</div>
+      <div class="search-box"><span class="si">🔍</span><input type="text" placeholder="搜索单词 / 中文 / 例句，如：monitor、血压计、CE…" oninput="filterWords(this.value)"></div>
+    </div>
+    <div id="wordsArea">
+    ${VOCAB100.map((g,gi)=>`
+      <div class="section" data-group>
+        <h3><span class="dot"></span>${g.c}<small>${g.items.length} 词</small></h3>
+        <div class="words-wrap">
+        ${g.items.map(it=>`
+          <div class="vrow" data-k="${esc((it.w+" "+it.cn+" "+it.ex+" "+it.excn).toLowerCase())}">
+            <div class="r1">
+              <button class="spk" title="朗读单词" onclick="speak('${esc(it.w)}',true)">🔊</button>
+              <span class="ww">${esc(it.w)}</span>
+              <span class="ph">${it.ph}</span>
+              <span class="cn">${esc(it.cn)}</span>
+            </div>
+            <div class="r2">
+              <button class="spk sm" title="朗读例句" onclick="speak('${esc(it.ex)}')">🔊</button>
+              <span class="exen">${esc(it.ex)}</span>
+              <span class="excn">${esc(it.excn)}</span>
+            </div>
+          </div>`).join("")}
+        </div>
+      </div>`).join("")}
+    </div>
+    <div class="pager">
+      ${LESSONS.length?`<a data-href="#/lesson/${LESSONS[LESSONS.length-1].id}"><span>← 返回课程</span><b>第 ${LESSONS[LESSONS.length-1].id} 课 · ${esc(shortTitle(LESSONS[LESSONS.length-1].title))}</b></a>`:"<a></a>"}
+      <a class="next" data-href="#/"><span>回到首页 →</span><b>🏠 课程目录</b></a>
+    </div>
+    <div class="footer-note">📒 ${esc(SITE.title)} · 每节课一页 · 持续更新</div>`;
+}
+
+function filterWords(kw){
+  kw = (kw||"").trim().toLowerCase();
+  document.querySelectorAll("#wordsArea [data-group]").forEach(g=>{
+    let visible = 0;
+    g.querySelectorAll(".vrow").forEach(r=>{
+      const show = !kw || r.getAttribute("data-k").indexOf(kw) > -1;
+      r.classList.toggle("hidden", !show);
+      if(show) visible++;
+    });
+    g.classList.toggle("hidden", visible===0);
+  });
+}
+
+function homePage(){
+  return `
+    <div class="hero">
+      <div class="logo">📒</div>
+      <h2>${esc(SITE.title)}</h2>
+      <p>${esc(SITE.intro)}</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>${LESSONS.length}</b><span>已更新课程</span></div>
+      <div class="stat"><b>${LESSONS.reduce((n,l)=>n+l.sections.length,0)}</b><span>知识模块</span></div>
+      <div class="stat"><b>100</b><span>医疗器械高频词</span></div>
+    </div>
+    <div class="lesson-cards">
+      ${LESSONS.map(l=>`<a class="lc" data-href="#/lesson/${l.id}">
+          <div class="num">LESSON ${l.id} · ${esc(l.date)}</div>
+          <h3>${esc(l.title)}</h3>
+          <p>${esc(l.subtitle||"")}</p>
+          <span class="go">进入复习 →</span>
+        </a>`).join("")}
+      <a class="lc special" data-href="#/words">
+        <div class="num">📖 词汇专题</div>
+        <h3>医疗器械高频词 100</h3>
+        <p>10 大分类 · 外贸业务实战例句 · 单词例句都能点读发音</p>
+        <span class="go">进入词汇库 →</span>
+      </a>
+    </div>
+    <div class="footer-note">📒 ${esc(SITE.title)} · 每节课一页 · 持续更新</div>`;
+}
+
+function route(){
+  const h = (location.hash || "#/").replace(/^#\/?/, "");
+  const app = document.getElementById("app");
+  const m = h.match(/^lesson\/(\d+)/);
+  if(m){
+    const l = LESSONS.find(x=>x.id===Number(m[1]));
+    if(l){ renderNav("lesson"+l.id); app.innerHTML = lessonPage(l); window.scrollTo(0,0); return; }
+  }
+  if(h === "words"){ renderNav("words"); app.innerHTML = wordsPage(); window.scrollTo(0,0); return; }
+  renderNav(null);
+  app.innerHTML = homePage();
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click", function(e){
+  const a = e.target.closest("[data-href]");
+  if(!a) return;
+  e.preventDefault();
+  const target = a.getAttribute("data-href");
+  if(location.hash !== target){ location.hash = target; }
+  route();
+});
+window.addEventListener("hashchange", route);
+
+document.getElementById("siteTitle").textContent = SITE.title;
+document.getElementById("siteSub").textContent = SITE.student + " 专属 · " + SITE.teacher + " · 持续更新";
+route();
+</script>
+</body>
+</html>
