@@ -386,12 +386,147 @@ const LESSONS = [
         {ic:"📖", h:"词汇", p:"components / pixel / hinge / torque 等电子产品词，介绍医疗设备时同样用得上"}
       ]}
   ]
-}
-/* ⬇️ 新增第 3 课模板（复制后修改 id / date / title / sections 即可）
-,
+},
 {
   id: 3,
-  date: "2026-09-26",
+  date: "2026-10-11",
+  title: "场景对话实战：咖啡厅 + 酒店入住 + 公司介绍与小演讲",
+  subtitle: "出差生存英语 · not only… but also 句型 · 1分钟主题演讲 · Free talk 心法",
+  sections: [
+    { type:"phrases", title:"🌅 热身对话 · 假期返工",
+      items:[
+        {en:"— How was your holiday?", cn:"— 假期过得怎么样？", note:"Andy: Nothing interesting, I just rested at home. 宅家也不错，避免人挤人"},
+        {en:"I had to go to work because of the adjustment of the holiday.", cn:"因为调休，我昨天还得上班。", note:"adjustment of the holiday 调休"},
+        {en:"I need to deal with too much work.", cn:"我要处理太多工作。"},
+        {en:"It is mentally draining.", cn:"很费神。", note:"⭐ 「费神」的地道说法（Andy 原句 a waste of my mind 已被纠正）"},
+        {en:"I need to make everything back on track.", cn:"我要让一切回到正轨。"},
+        {en:"I am still getting used to the pace of work.", cn:"我还在适应工作节奏。"}
+      ]},
+    { type:"tips", title:"🧪 课前测试：疑问句规则自测（Andy 全对 ✅）",
+      items:[
+        {ic:"✅", h:"助动词后接原形", p:"What did you do? / How long did you stay? —— did 已体现过去时，后面动词必须用原形"},
+        {ic:"✅", h:"情态动词后接原形", p:"Can/Could he play…? —— can 和 could 都是情态动词，后面接动词原形"},
+        {ic:"✅", h:"do/does 与 be 动词不混用", p:"Where does she go?（一般现在时）/ Where is she going?（现在进行时 be + doing）"},
+        {ic:"✅", h:"how 家族辨析", p:"how far 多远（距离） / how many 多少（可数数量） / how long 多长时间 / how often 多频繁（频率）"},
+        {ic:"⚠️", h:"小心干扰词", p:"连词成句时，多余的词反而可能是误导，先抓句子主干"}
+      ]},
+    { type:"vocab", title:"☕ 场景一：咖啡厅词汇",
+      items:[
+        {word:"menu", phon:"/ˈmenjuː/", cn:"n. 菜单", note:""},
+        {word:"espresso", phon:"/eˈspresəʊ/", cn:"n. 浓缩咖啡", note:""},
+        {word:"americano", phon:"/əˌmerɪˈkɑːnəʊ/", cn:"n. 美式咖啡", note:""},
+        {word:"latte", phon:"/ˈlɑːteɪ/", cn:"n. 拿铁", note:""},
+        {word:"cappuccino", phon:"/ˌkæpuˈtʃiːnəʊ/", cn:"n. 卡布奇诺", note:""},
+        {word:"mocha", phon:"/ˈmɒkə/", cn:"n. 摩卡", note:""},
+        {word:"matcha", phon:"/ˈmætʃə/", cn:"n. 抹茶", note:""},
+        {word:"size", phon:"/saɪz/", cn:"n. 杯型（small / medium / large）", note:"middle size 口语也常说"},
+        {word:"sugar", phon:"/ˈʃʊɡə(r)/", cn:"n. 糖", note:"half sugar / 50% sugar 半糖"},
+        {word:"bill", phon:"/bɪl/", cn:"n. 账单", note:"Can I have the bill, please?"}
+      ]},
+    { type:"phrases", title:"☕ 咖啡厅高频句",
+      items:[
+        {en:"Can I have a menu?", cn:"能给我一份菜单吗？", note:"⭐ 老外高频表达：Can I have… 比 I want 更地道"},
+        {en:"What do you recommend?", cn:"你有什么推荐？", note:"recommend /ˌrekəˈmend/ 推荐"},
+        {en:"I would like a large latte with half sugar, please.", cn:"我要一杯大杯拿铁，半糖。", note:"⭐ with 连接附加要求；50% sugar 也可以"},
+        {en:"Would you like some sugar?", cn:"要加糖吗？"},
+        {en:"For here or to go?", cn:"堂食还是外带？"},
+        {en:"Can I pay by card / WeChat / Alipay?", cn:"我可以刷卡 / 微信 / 支付宝支付吗？"},
+        {en:"Can I have the bill, please?", cn:"请给我账单。"},
+        {en:"No, that is all. / Anything else? — No, thanks.", cn:"就这些，谢谢。"}
+      ]},
+    { type:"dialogue", title:"☕ 咖啡厅对话示范（完整模拟）",
+      lines:[
+        {who:"店员", en:"Hello, sir. How many people?", cn:""},
+        {who:"Andy", en:"Just one person. Can I have the menu?", cn:""},
+        {who:"店员", en:"Sure. What would you like to drink?", cn:""},
+        {who:"Andy", en:"What do you recommend?", cn:""},
+        {who:"店员", en:"The latte is very popular. Would you like to try it?", cn:""},
+        {who:"Andy", en:"OK, I would like a large latte with half sugar, please.", cn:"⭐ 大杯拿铁半糖"},
+        {who:"店员", en:"Anything else?", cn:""},
+        {who:"Andy", en:"No, thanks. Can I have a glass of water?", cn:""},
+        {who:"店员", en:"Sure. For here or to go?", cn:""},
+        {who:"Andy", en:"For here. Can I pay by card?", cn:""},
+        {who:"店员", en:"Absolutely. That is 25 yuan.", cn:""}
+      ]},
+    { type:"vocab", title:"🏨 场景二：酒店入住词汇",
+      items:[
+        {word:"reception", phon:"/rɪˈsepʃn/", cn:"n. 前台", note:""},
+        {word:"reservation", phon:"/ˌrezəˈveɪʃn/", cn:"n. 预定（已含预留房间之意）", note:""},
+        {word:"passport", phon:"/ˈpɑːspɔːt/", cn:"n. 护照", note:""},
+        {word:"key card", phon:"/kiː kɑːd/", cn:"n. 房卡", note:""},
+        {word:"floor", phon:"/flɔː(r)/", cn:"n. 楼层", note:"on the third floor 在三楼"},
+        {word:"check in / check out", phon:"/tʃek ɪn / aʊt/", cn:"入住 / 退房", note:"What time is check out?"},
+        {word:"fill in", phon:"/fɪl ɪn/", cn:"v. 填写", note:""},
+        {word:"include", phon:"/ɪnˈkluːd/", cn:"v. 包含", note:"Is breakfast included?"},
+        {word:"wake up call", phon:"/weɪk ʌp kɔːl/", cn:"n. 叫醒服务", note:""},
+        {word:"double / twin room", phon:"/ˈdʌbl / twɪn ruːm/", cn:"大床房 / 双床房", note:"standard room 标准房"}
+      ]},
+    { type:"phrases", title:"🏨 酒店入住高频句",
+      items:[
+        {en:"I would like to check in.", cn:"我要办理入住。", note:"⭐ 更完整：I would like to have / to do"},
+        {en:"I have a reservation under the name Wang.", cn:"我用王的名字预定了一间房。", note:"under the name… 以…的名字"},
+        {en:"Can I have your passport?", cn:"请出示护照。", note:"回答：Sure, here you are."},
+        {en:"Is breakfast included?", cn:"包含早餐吗？", note:"⭐ 被动语态 included；breakfast 不可数用 is"},
+        {en:"What time is check out?", cn:"几点退房？", note:"通常 before 12 (noon)"},
+        {en:"Can I have a wake up call at seven o clock?", cn:"能明天早上 7 点叫醒我吗？"},
+        {en:"Here is your key card. Room 305 on the third floor.", cn:"这是您的房卡，305 房间在三楼。"}
+      ]},
+    { type:"dialogue", title:"🏨 酒店入住对话示范（完整模拟）",
+      lines:[
+        {who:"前台", en:"Hello, sir. What can I do for you?", cn:""},
+        {who:"Andy", en:"I would like to check in.", cn:""},
+        {who:"前台", en:"Do you have a reservation?", cn:""},
+        {who:"Andy", en:"Yes, I have a reservation for a double room under the name Andy.", cn:""},
+        {who:"前台", en:"Can I have your passport?", cn:""},
+        {who:"Andy", en:"Sure, here you are.", cn:""},
+        {who:"前台", en:"How many nights would you like to stay?", cn:""},
+        {who:"Andy", en:"For two nights. Is breakfast included?", cn:""},
+        {who:"前台", en:"Yes, it is. Breakfast is from 7 am to 10 am.", cn:""},
+        {who:"Andy", en:"Can I have a wake up call tomorrow at 7 am?", cn:""},
+        {who:"前台", en:"No problem. Here is your key card. Room 305 on the third floor.", cn:""},
+        {who:"Andy", en:"Thank you. What time is check out?", cn:""},
+        {who:"前台", en:"Before twelve. Have a good day!", cn:""}
+      ]},
+    { type:"essay", title:"🏭 公司介绍范文（书面版 + 口语版）",
+      en:"We are a manufacturer of medical devices and implantable medical consumables. Our main market is Europe. We hold a 50% local market share, yet we keep expanding our customer base. Our products meet strict European medical certification standards such as CE and MHRA, so many hospitals are willing to cooperate with us. Our products not only have stable quality but also have competitive pricing. Customers who choose us can get one-stop medical solutions. If you partner with us, you will receive professional after-sales support. We have a wide product portfolio.",
+      cn:"📖 口语版（Free talk 用，Andy 实测）：Microcure Medical is a medical device manufacturer based in Suzhou. We focus on Class II and Class III minimally invasive surgical products, including surgical consumables and the intelligent insufflation system. I work here as an overseas business trainee. My job is to find potential distributors in the UK and build partnerships globally.（迈科奇医疗位于苏州，主营二、三类微创外科产品，我是海外业务管培生，负责在英国等地开发经销商。）"},
+    { type:"phrases", title:"🔗 语法重点：not only… but also…（并列递进）",
+      items:[
+        {en:"Our products are not only safe but also cost-effective.", cn:"我们的产品不仅安全，而且性价比高。", note:"⭐ 性价比高 = cost-effective / competitive pricing"},
+        {en:"The factory can not only make medical devices but also produce implant consumables.", cn:"工厂不仅能做医疗设备，还能生产植入耗材。"},
+        {en:"We provide not only high-quality goods but also professional after-sales service.", cn:"我们不仅提供高质量产品，还提供专业的售后服务。"},
+        {en:"This material is not only durable but also meets European medical standards.", cn:"这种材料不仅耐用，还符合欧洲医疗标准。"},
+        {en:"Our team can not only answer your questions but also offer custom solutions.", cn:"我们团队不仅能答疑，还能提供定制方案。"},
+        {en:"Price is a key factor in this market.", cn:"价格是这个市场的关键因素。", note:"Mike 点评：耗材行业同质化严重，价格是 key factor"}
+      ]},
+    { type:"essay", title:"🎤 小演讲示范①：我的国庆假期（1分钟）",
+      en:"I would like to talk about my last National Day holiday. Firstly, I decided not to travel anywhere and just stay at home because I wanted a wonderful break from busy work. Then I kept a normal routine. I sorted out work documents and practiced my English these days. Also, I cooked simple meals and listened to music to relieve my stress. More importantly, I rode a bike with my close friends. So this quiet holiday helped me recharge and feel ready for new upcoming challenges.",
+      cn:"📖 关键词演讲法：先列 3 个关键词（假期/实习/感受），每个词「加料」——什么时候、和谁、为什么、感受。好词：unwind 放松 / recharge 充电 / relieve stress 减压"},
+    { type:"essay", title:"🎤 小演讲示范②：介绍我的家乡（1分钟）",
+      en:"I would like to talk about my hometown, Tongcheng in Anhui province. Firstly, it is famous for the Tongcheng School of Literature, which not only shaped ancient Chinese writing styles but also left precious cultural influence. And then it has beautiful countryside and ancient architecture. Many old streets and houses are well preserved for visitors. Also, local people are friendly and warm-hearted, and there is delicious traditional food with unique flavors. So even though it is not a big city, it is a charming place full of history and warmth.",
+      cn:"📖 结构：讲三个方面（文化/风景/人情）+ 每个方面加料 + and / but / so + not only… but also 串联。Mike 点评：语调要起伏，简单句快说、长句慢说"},
+    { type:"fix", title:"🔧 本课错句纠正",
+      items:[
+        {bad:"Is breakfast include?", good:"Is breakfast included?", cn:"被动语态；breakfast 不可数 → 用 is"},
+        {bad:"I would like have a latte.", good:"I would like to have a latte.", cn:"would like to do，to 不能丢"},
+        {bad:"The work is a waste of my mind.", good:"It is mentally draining.", cn:"「费神」地道说法：mentally draining / it drains my energy"},
+        {bad:"Is breakfast and lunch include?", good:"Are breakfast and lunch included?", cn:"两项并列用复数 → are"}
+      ]},
+    { type:"tips", title:"💬 Free talk 心法（Mike 点评精华）",
+      items:[
+        {ic:"💗", h:"感受先行", p:"先直接回答感受，再展开：I think managing a team is a challenge for me, but I love it."},
+        {ic:"🧩", h:"拆分三部分", p:"I think there are three parts to it. 先给框架，再逐个关键词加料（什么时候/和谁/为什么/感受）"},
+        {ic:"🤝", h:"真诚 > 客套", p:"英语没到流利程度时，真诚表达最打动人：不喜欢就说 Actually, I just want to be an individual."},
+        {ic:"📈", h:"新词", p:"rewarding 有意义的、有回报的；individual 独立的个人"},
+        {ic:"🎯", h:"Mike 总诊断", p:"语法基础已过关 ✅ 现在最缺流利度和「说得精彩」→ 多听多跟读模仿（老说一句你跟一句），下节课纯 Free talk 深度练反应"}
+      ]}
+  ]
+}
+/* ⬇️ 新增第 4 课模板（复制后修改 id / date / title / sections 即可）
+,
+{
+  id: 4,
+  date: "2026-10-18",
   title: "第 2 课标题",
   subtitle: "一句话副标题",
   sections: [
