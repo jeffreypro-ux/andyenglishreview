@@ -521,12 +521,114 @@ const LESSONS = [
         {ic:"🎯", h:"Mike 总诊断", p:"语法基础已过关 ✅ 现在最缺流利度和「说得精彩」→ 多听多跟读模仿（老说一句你跟一句），下节课纯 Free talk 深度练反应"}
       ]}
   ]
-}
-/* ⬇️ 新增第 4 课模板（复制后修改 id / date / title / sections 即可）
-,
+},
 {
   id: 4,
-  date: "2026-10-18",
+  date: "2026-10-25",
+  title: "全英文实战：职场求助 + 闲聊团建 + 三大深度话题",
+  subtitle: "无 PPT 纯对话训练 · 情绪价值 · 状语从句 · 演讲上价值",
+  sections: [
+    { type:"phrases", title:"🌅 热身 · 本周新鲜事",
+      items:[
+        {en:"I had a video conference with a customer last night.", cn:"昨晚我和客户开了视频会议。", note:"UK customer 英国客户"},
+        {en:"It was my first time having a video meeting with our customer.", cn:"这是我第一次和客户开视频会议。"},
+        {en:"I was mostly listening, but next time I need to host the meeting.", cn:"我主要在听，但下次我需要主持。", note:"host the meeting 主持会议"},
+        {en:"I have to adapt to it.", cn:"我必须适应它。"}
+      ]},
+    { type:"phrases", title:"💼 场景一：职场新人求助（疑问句实战）",
+      items:[
+        {en:"I am starting to work on the business report. I am not sure how to work it out, so could you give me some guidance?", cn:"我开始做这份业务报告了，不确定怎么做，能给我一些指导吗？", note:"⭐ 开场先说明来意"},
+        {en:"What aspects do I need to focus on primarily?", cn:"我主要需要关注哪些方面？", note:"primarily 主要地"},
+        {en:"Where can I find the sales data?", cn:"我在哪里可以找到销售数据？", note:"公司有自己的 CRM / database 系统"},
+        {en:"How can I access the database? / I do not have the account yet.", cn:"我怎么登录数据库？我还没有账号。"},
+        {en:"Is there a clear deadline for the submission?", cn:"提交有明确的截止日期吗？", note:"deadline 截止日期；submission 提交"},
+        {en:"Do we have a standard PPT template available?", cn:"我们有标准的 PPT 模板吗？", note:"template 模板"},
+        {en:"If I run into other questions, may I come to confirm with you again?", cn:"如果遇到其他问题，我可以再来跟你确认吗？", note:"回答：Sure, I got your back. 当然，我给你兜底 👍"},
+        {en:"Could you do me a favor?", cn:"能帮个忙吗？", note:"求助万能开场"}
+      ]},
+    { type:"dialogue", title:"💼 场景一对话示范（新人问同事怎么写报告）",
+      lines:[
+        {who:"Andy", en:"Hi Mike, I am starting to work on the business report. I am not sure how to work it out, so could you give me some guidance?", cn:"⭐ 开场：说明来意 + 请求帮助"},
+        {who:"Mike", en:"Sure. What is the report about?", cn:""},
+        {who:"Andy", en:"It focuses on marketing. What aspects do I need to focus on?", cn:""},
+        {who:"Mike", en:"First, collect the information and find what product you want to promote. For the first version, that is enough.", cn:""},
+        {who:"Andy", en:"Where can I find the sales data?", cn:""},
+        {who:"Mike", en:"We have our own CRM system. Log in and you will find all the customer data.", cn:""},
+        {who:"Andy", en:"Is there a clear deadline for the submission?", cn:""},
+        {who:"Mike", en:"Finish it this week, so next week we can set the strategy meeting.", cn:""},
+        {who:"Andy", en:"Perfect. If I run into other questions, may I come to confirm with you again?", cn:""},
+        {who:"Mike", en:"Sure, I got your back.", cn:"⭐ 给你兜底（很地道的职场暖句）"}
+      ]},
+    { type:"tips", title:"🧭 Mike 的职场提问清单（开会/问事通用）",
+      items:[
+        {ic:"📍", h:"问地点", p:"Where is the database? / Where can I find…?"},
+        {ic:"🕐", h:"问时间", p:"When do I need to finish? / Is there a deadline?"},
+        {ic:"👤", h:"问对象", p:"Who should I give it to? / Who is responsible for each part?"},
+        {ic:"📝", h:"问内容", p:"What do I need to do? / What aspects should I focus on?"},
+        {ic:"💡", h:"Andy 表现点评", p:"疑问句全部能反应过来 ✅ 只是慢几拍——不是英语问题，是「在思考问什么」。多练就能提速"}
+      ]},
+    { type:"phrases", title:"🎉 场景二：团建咨询（朋友式闲聊）",
+      items:[
+        {en:"Have you heard about the team building this weekend?", cn:"你听说这周末的团建了吗？"},
+        {en:"I am really keen to come!", cn:"我很想去！", note:"⭐ keen /kiːn/ 热衷的，比 interested 更有热情"},
+        {en:"What time do we start and finish?", cn:"几点集合、几点结束？", note:"口语直接说法，不用 could you tell me…"},
+        {en:"Is there anything I need to bring along?", cn:"我需要带什么东西吗？"},
+        {en:"Is everything paid by the company? Will food be provided?", cn:"费用公司全包吗？管饭吗？"},
+        {en:"I will definitely bring my coat. Thanks for the reminder!", cn:"我一定带上外套，谢谢提醒！", note:"⭐ 先回应对方，再问下一个问题"},
+        {en:"Honestly, I originally planned to take it easy this weekend, but if a lot of people are going, I will come along.", cn:"说实话，我本来这周末想轻松度过的，但如果大家都去，那我也去。"},
+        {en:"I am looking forward to it!", cn:"我很期待！"}
+      ]},
+    { type:"dialogue", title:"🎉 场景二对话示范（注意星标 = 情绪反应）",
+      lines:[
+        {who:"Andy", en:"Hey Mike, have you heard about the team building this weekend?", cn:""},
+        {who:"Mike", en:"Yeah! Do you want to go?", cn:""},
+        {who:"Andy", en:"I am really keen to come! Really? We are going to Shanghai? Sounds great! What time do we start and finish?", cn:"⭐ 连续情绪反应：Really? / Sounds great!"},
+        {who:"Mike", en:"We gather at 8 pm on the first day and come back Monday evening.", cn:""},
+        {who:"Andy", en:"Oh my god, that is a long trip! Is there anything I need to bring along?", cn:"⭐ Oh my god 惊讶情绪"},
+        {who:"Mike", en:"Just bring a jacket. It is only 10 to 15 degrees there.", cn:""},
+        {who:"Andy", en:"Really? I will definitely bring my coat. Thanks for the reminder! Just a quick question — is everything paid by the company?", cn:"⭐ 先回应（要带我肯定带），再问问题"},
+        {who:"Mike", en:"Yes, the company covers the hotel and all meals.", cn:""},
+        {who:"Andy", en:"I am looking forward to it! Honestly, I originally planned to take it easy this weekend, but if a lot of people are going, I will come along.", cn:""},
+        {who:"Mike", en:"Cool, see you there!", cn:""}
+      ]},
+    { type:"tips", title:"💬 闲聊心法：朋友聊天 ≠ 商务报告",
+      items:[
+        {ic:"🎯", h:"用副词，不用长句", p:"honestly / actually / seriously 开头即可；别用 could you tell me…（太正式）"},
+        {ic:"🔥", h:"给情绪反应（情绪价值）", p:"Really? / Oh my god! / Sounds great! —— 老外都这样聊，聊天才不会「死」"},
+        {ic:"↩️", h:"先回应，再问下一个问题", p:"对方说完 → 先给反应/感谢（Thanks for the reminder!）→ 再问。别连环追问"},
+        {ic:"🗂️", h:"可问的问题库", p:"包不包餐？带什么？能不能带朋友？几点集合？住几晚？—— 都是闲聊好素材"}
+      ]},
+    { type:"essay", title:"🎤 深度话题①：完美周末（状语从句实战）",
+      en:"If I get a real break, my ideal holiday would be pretty slow and totally unplanned. I would wake up naturally and wander out for a nice walk while the air is still fresh. I will not rush anywhere because I do not set alarms or tight schedules. Even if I only do simple things like baking, listening to music and reading books, I will feel fully recharged.",
+      cn:"📖 句型重点：if / when / even if / because 状语从句。⭐ because 放主句后面（I do this because…），不能先说 because。好词：sleep in 睡懒觉 / wander 闲逛 / recharge 充电 / unwind 放松"},
+    { type:"essay", title:"🎤 深度话题②：计划赶不上变化（讲故事结构）",
+      en:"Just last week, I had prepared for a video call with our client. When I got ready to go through the product presentation, they suddenly brought up a whole new set of technical questions that we had not prepared before. While I was trying to answer those questions, they also changed the timeline for the sample delivery. Honestly, I felt a bit disorganized at that moment because I did not expect so many new requests at once. But thankfully, I paused to take notes and sort out their requirements. Fortunately, after the call, I rearranged my task list immediately. That is why I try to stay flexible and keep some spare time for surprises.",
+      cn:"📖 Mike 的故事框架：什么事 → 发生了什么 → 结果如何 → 怎么解决的 → 学到什么/下次怎么准备。⭐ 先说简单句（主谓宾），再说复杂句，更有层次；感受要直白：I felt so scared / I did not know what to do；转折用 but thankfully / fortunately"},
+    { type:"essay", title:"🎤 深度话题③：什么是成功的人生（演讲上价值）",
+      en:"For me, a good and successful life is really about freedom over my time. Actually, honestly, I still hope to do meaningful work and earn enough to live comfortably, but I never want my job to completely take over my daily life. Have you ever felt that you are constantly rushed and just dragged along by endless tasks? If I can truly decide when I work and when I slow down, and keep enough time for the little things I enjoy, I will feel fulfilled. Even when I am busy with work, as long as I can set my own pace instead of being pushed by others, that is exactly the kind of life I am pursuing. Is that not something we all secretly want?",
+      cn:"📖 Mike 的演讲心法：由浅入深，先讲生活共鸣点 → 用问句引入观点（Have you ever felt…?）→ 结尾再升一层。⭐ 副词清单：actually 事实上 / basically 基本上 / probably 大概 / obviously 显然 / seriously 说真的 / normally 通常 / usually / often / seldom 很少 / rarely 几乎不"},
+    { type:"fix", title:"🔧 本课纠正",
+      items:[
+        {bad:"To be honest, I planned to take it easy…", good:"Honestly, I planned to take it easy…", cn:"朋友闲聊用副词 honestly / actually 开头即可，to be honest 太严肃"},
+        {bad:"Could you tell me a bit more about it?（朋友间）", good:"Where will you go? / What time do we start?", cn:"朋友闲聊直接用简单疑问句，正式句式留给商务场景"},
+        {bad:"I will probably feel fear.", good:"I felt so scared / I did not know what to do.", cn:"表达感受要直白生活化，越简单越真实"}
+      ]},
+    { type:"tips", title:"📌 诊断 & 课后作业",
+      items:[
+        {ic:"🩺", h:"Andy 自诊", p:"话题讲两三句就断；喜欢讲复杂内容，嘴跟不上脑子；纠结语法就卡顿"},
+        {ic:"🎯", h:"Mike 诊断", p:"语法整体没问题 ✅ 核心瓶颈是流利度——简单主谓宾说得太少，以后要刻意练简单句"},
+        {ic:"🔄", h:"思维转换", p:"无论中英文，换角度聊话题，有浅有深，不要困在自己的认知范围里"},
+        {ic:"🎧", h:"跟读作业", p:"用 YouTube 跟读插件，找医疗官方账号（如 Siemens）的产品视频模仿语速；明天发医疗跟读材料", note2:""},
+        {ic:"💡", h:"关键理念", p:"用英语去学其他东西，而不是学英语——让英语成为你生活的一部分"},
+        {ic:"📦", h:"下节课预告", p:"讲产品（产品介绍实战）"}
+      ]}
+  ]
+}
+/* ⬇️ 新增第 5 课模板（复制后修改 id / date / title / sections 即可）
+,
+{
+  id: 5,
+  date: "2026-11-01",
   title: "第 2 课标题",
   subtitle: "一句话副标题",
   sections: [
