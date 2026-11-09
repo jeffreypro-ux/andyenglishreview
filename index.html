@@ -41,6 +41,8 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
 .lesson-link.active .num{background:var(--brand)}
 .lesson-link .meta b{display:block;font-size:14.5px;line-height:1.4}
 .lesson-link .meta span{font-size:12px;color:var(--ink-soft)}
+.video-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:11px 12px;background:linear-gradient(135deg,var(--brand),#d96a3a);color:#fff;border-radius:12px;text-decoration:none;font-size:14px;font-weight:600;box-shadow:var(--shadow);transition:.2s}
+.video-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .sidebar .update{margin-top:22px;padding:14px;background:var(--accent-soft);border-radius:12px;
   font-size:12.5px;color:var(--accent)}
 .main{flex:1;padding:40px 48px 80px;max-width:960px;margin:0 auto;width:100%}
@@ -169,6 +171,7 @@ body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
       <div class="logo">📒</div>
       <h1 id="siteTitle">英语口语复习站</h1>
       <p id="siteSub">每节课一页 · 持续更新</p>
+    <a class="video-btn" href="https://my.feishu.cn/drive/folder/ZLTqfN7qBlPO1OdB0qOcbcJxnRA?from=space_personal_filelist" target="_blank" rel="noopener">📹 课程视频回放</a>
     </div>
     <div class="nav-label">学习目录</div>
     <nav id="nav"></nav>
@@ -623,12 +626,82 @@ const LESSONS = [
         {ic:"📦", h:"下节课预告", p:"讲产品（产品介绍实战）"}
       ]}
   ]
-}
-/* ⬇️ 新增第 5 课模板（复制后修改 id / date / title / sections 即可）
-,
+},
 {
   id: 5,
-  date: "2026-11-01",
+  date: "2026-11-08",
+  title: "即兴表达特训：让对话活起来（Impromptu Speaking Bootcamp）",
+  subtitle: "无稿表达 · 复杂事情简单说 · 停顿的艺术 · 影子跟读模仿",
+  sections: [
+    { type:"phrases", title:"🌅 热身 · 两周不见 + 第一次独立接待客户",
+      items:[
+        {en:"I was very busy this week. I need to handle so much work.", cn:"这周很忙，要处理太多工作。"},
+        {en:"I communicated with some foreign customers and introduced our products to them.", cn:"我和一些外国客户交流，向他们介绍了我们的产品。"},
+        {en:"I hosted some clients.", cn:"我接待了客户。", note:"⭐ Mike 大赞：big improvement！以后要独立搞定客户了"},
+        {en:"When hosting clients, it is important to listen carefully and in detail to their needs, questions and expectations.", cn:"接待客户时，仔细倾听他们的需求、问题和期望很重要。", note:"Andy 的真实收获"},
+        {en:"We need to confirm that our way of expressing is appropriate and correct.", cn:"我们要确认自己的表达方式是恰当、准确的。"}
+      ]},
+    { type:"essay", title:"🔄 延伸复习：客户不感兴趣怎么办（even if 实战）",
+      en:"I had a meeting last week. I was going to introduce the product to the customer. Even if the customer was not satisfied with the introduction of our product, I still sent a specific introduction letter and the brochure after the meeting.",
+      cn:"📖 Mike 的造句心法：先用简单句描述现象，再给 solution，别一上来就复杂句。被追问 What if your supervisor blames you?（领导责怪你怎么办）时，Andy 的应对：Firstly, I will discuss with my mentor. We need a multi-channel way to connect with our customers. Email is a good way to express our cooperation opportunities, even if they are not willing to take our call or accept our invitation to a video meeting."},
+    { type:"cards", title:"⭐ 本课主题：三大训练目标",
+      items:[
+        {h:"① Speak without preparation", p:"不准备也能说——关键词直接成段"},
+        {h:"② Keep the conversation alive", p:"让对话不死——更口语化、更有趣、有情绪"},
+        {h:"③ Complex → Simple", p:"把复杂事情简单化——这是 Andy 现在最需要的"},
+        {h:"⏱️ 规则", p:"1 分钟限时、保持流利；只允许 if / when / because / although 级别的从句"}
+      ]},
+    { type:"essay", title:"🎤 训练一：教 Mike 点咖啡（说本质，不讲步骤）",
+      en:"Mike, when you get to the cafe and want a cup of coffee to unwind or relieve your stress, greet the staff first and tell them what you want, like an americano or a latte. You can say no sugar or less sugar if you need, and remember to say for here or to go. If they ask anything else, just answer: that is all, thanks. It is simple.",
+      cn:"📖 Mike 点评：Andy 第一版把点咖啡讲成了说明书（付款码、小票全说了），听着发懵。点咖啡的本质就三句话：想喝什么（拿铁不苦，新手友好）→ 几分糖 → 堂食还是外带。教学/解释类表达抓本质，别堆细节"},
+    { type:"essay", title:"🎤 训练二：What do you think of overtime?（先抛观点，带情绪）",
+      en:"Actually, I am okay with overtime once in a while, especially for urgent work. But if it happens all the time, it really makes me annoyed and tired. Since I am in overseas sales, sometimes I have to stay up to deal with urgent emails or fit my clients time zones. I know it is part of the job, I get it, but I still hope I could have more time to rest. I really hope I can cut down on overtime.",
+      cn:"📖 Mike 心法：被问观点时，先直接抛关键词+情绪（Overtime is a stupid thing! / worthless!），停顿一下再展开——就像中文说「加班是狗屎，因为……」。信息别贪多，流利讲四五句就够"},
+    { type:"essay", title:"🎤 训练三：教 Mike 坐地铁去苏州火车站（⭐ 停顿的艺术）",
+      en:"It is super easy to get to Suzhou railway station by subway. Firstly, find the nearest subway station — you can check the map on your phone — and take line two or line four. Both go straight to the railway station. Just get on the train in the right direction. When you arrive, follow the station signs, walk straight out of the exit, and you are there. It is fast and you can not go wrong.",
+      cn:"📖 本段重点不是内容，是「停」：Andy 一开始不敢停、怕接不上 → Mike 要求直接停 5~10 秒，学会戛然而止。最终效果：有快有慢、有停顿——Mike 金句：这才是 professional 的流利度，不是一直巴拉巴拉快，也不是一直很慢"},
+    { type:"tips", title:"🎧 新环节：影子跟读 Shadowing（素材 Anton Kreil）",
+      items:[
+        {ic:"🎬", h:"素材", p:"Andy 自选：Anton Kreil（高盛前交易员，YouTube，英音）。Mike 认可：他也是边想边说，适合 Andy 模仿"},
+        {ic:"🔗", h:"连读弱化", p:"do you remember the other day 要一气呵成快速带过；the 等虚词弱化，不用每个词都读清楚"},
+        {ic:"⏸️", h:"停顿即意群", p:"You are talking about…（停）what young people do wrong.（停）What do you think they could do right? ——真实说话就是意群间完全停顿"},
+        {ic:"🧱", h:"按词组记", p:"人的即兴记忆就是一次四五个词；背得很流利的整段反而不是真实表达"},
+        {ic:"💬", h:"万能句", p:"It comes down to a number of things.（取决于很多因素）——被问观点时的万金油开场"},
+        {ic:"❤️", h:"核心", p:"模仿语气情感比读对更重要；一句一句听清、跟清，慢下来不是错"}
+      ]},
+    { type:"vocab", title:"📚 本课高频词",
+      items:[
+        {word:"exhausted", phon:"/ɪɡˈzɔːstɪd/", cn:"adj. 筋疲力尽的", note:"比 tired 更强"},
+        {word:"supervisor", phon:"/ˈsuːpəvaɪzə(r)/", cn:"n. 上司", note:"What if your supervisor blames you?"},
+        {word:"multi-channel", phon:"/ˌmʌlti ˈtʃænl/", cn:"adj. 多渠道的", note:"multi-channel way to connect with customers"},
+        {word:"brochure", phon:"/ˈbrəʊʃə(r)/", cn:"n. 宣传册", note:""},
+        {word:"once in a while", phon:"", cn:"偶尔", note:"口语；比 occasionally 更自然"},
+        {word:"wear me out", phon:"", cn:"使我精疲力尽", note:""},
+        {word:"stay up", phon:"", cn:"熬夜", note:"stay up to fit clients time zones"},
+        {word:"cut down on", phon:"", cn:"减少", note:"cut down on overtime"},
+        {word:"It comes down to…", phon:"", cn:"取决于…", note:"观点万能开场"},
+        {word:"view", phon:"/vjuː/", cn:"v. 看待", note:"the way people view money"}
+      ]},
+    { type:"fix", title:"🔧 本课纠正",
+      items:[
+        {bad:"occasionally（口语中）", good:"once in a while / sometimes", cn:"occasionally 偏书面，口语换简单副词"},
+        {bad:"What do young people do a wrong?", good:"What do young people do wrong?", cn:"⚠️ Andy 跟读时总乱加 a——模仿时先听清结构再开口"},
+        {bad:"I think overtime work is too terrible for me…（绕圈开头）", good:"Overtime is a stupid thing.（先抛观点）", cn:"表达观点：先给结论+情绪，停顿，再展开"},
+        {bad:"细节堆叠版点咖啡（付款码/小票）", good:"说本质：喝什么→几分糖→堂食外带", cn:"教学类表达抓核心，细节让对方来问"}
+      ]},
+    { type:"tips", title:"📌 课后作业",
+      items:[
+        {ic:"🎧", h:"影子跟读", p:"像课堂这样一句一句听清、跟清，模仿语气情感；用 Andy 在用的跟读插件（手机端也可以）"},
+        {ic:"📱", h:"学习方法升级", p:"用英语去学东西，而不是学英语——边享受视频边学，效率最高"},
+        {ic:"🔁", h:"下节课", p:"继续跟读训练 + 更多即兴话题"}
+      ]}
+  ]
+}
+/* ⬇️ 新增第 6 课模板（复制后修改 id / date / title / sections 即可）
+,
+{
+  id: 6,
+  date: "2026-11-15",
   title: "第 2 课标题",
   subtitle: "一句话副标题",
   sections: [
