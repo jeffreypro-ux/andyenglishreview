@@ -696,12 +696,80 @@ const LESSONS = [
         {ic:"🔁", h:"下节课", p:"继续跟读训练 + 更多即兴话题"}
       ]}
   ]
-}
-/* ⬇️ 新增第 6 课模板（复制后修改 id / date / title / sections 即可）
-,
+},
 {
   id: 6,
-  date: "2026-11-15",
+  date: "2026-11-22",
+  title: "面试英语实战：会议开场 + 工作经历 + 职业规划",
+  subtitle: "1分钟面试问答 · 关键词提炼法 · 会议澄清四件套",
+  sections: [
+    { type:"phrases", title:"🌅 热身 · 实习结束 + 职业转折期",
+      items:[
+        {en:"My internship is over, so I am on leave this week. I feel relaxed.", cn:"我的实习结束了，这周在休假，很放松。"},
+        {en:"I am in the stage of deciding my personal career development.", cn:"我正处于规划个人职业发展的阶段。"},
+        {en:"I have been looking for other better job opportunities.", cn:"我一直在寻找其他更好的工作机会。"},
+        {en:"This industry has the longest development cycle.", cn:"这个行业的产品研发周期最长。", note:"Mike 补充：从研发到卖大单要 2~3 年"},
+        {en:"This industry values your experience, knowledge base, and most importantly, your credibility.", cn:"这个行业看重经验、知识储备，最重要的是信誉。", note:"⭐ credibility 信誉，医疗器械行业关键词"}
+      ]},
+    { type:"essay", title:"🎤 会议开场破冰范文（业务当翻译的场景）",
+      en:"Hi everyone, thanks for joining today's meeting. Today we are going to talk about the medical consumable project. Our engineer is here with us, but he doesn't speak English, so I will help translate between you and our technical team. Feel free to share your questions or concerns about material packaging, validation or lead time. We'll go through them one by one. All right, let's get started.",
+      cn:"📖 Mike 要点：① 大声、有感染力，符合老外语调 ② 工程人员常不会英语，业务要当翻译并说精准 ③ go through = 逐个 check 确认；feel free to share… 欢迎提出…（包装材质/验证/交期）"},
+    { type:"phrases", title:"🧰 会议澄清四件套（翻译/总结必备）",
+      items:[
+        {en:"Let me clarify this…", cn:"让我来说明一下……", note:"工程师说了一堆中文，你向客户澄清"},
+        {en:"Just to be clear, we are only doing this…", cn:"简单说清楚，我们只负责……", note:"重新强调观点"},
+        {en:"The main point is…", cn:"重点是……", note:"最多一两句，别讲太长"},
+        {en:"One thing to note is that you should focus on the expiry date of our products.", cn:"有一点需要留意：请关注我们产品的有效期。", note:"⭐ 给自己留后路，话不要说太满"}
+      ]},
+    { type:"cards", title:"🎯 话题一方法论：工作经历怎么讲（面试必考）",
+      items:[
+        {h:"第 1 步 · 捋关键词", p:"公司城市（Suzhou）→ 具体做什么（学产品知识+找 UK 分销商）→ 和谁工作（Alan & Maggie）→ 两个感受形容词"},
+        {h:"第 2 步 · 副词开头", p:"Actually / Honestly / Well 自然开场，如：Honestly, my work experience…"},
+        {h:"第 3 步 · 总分总", p:"先给核心信息，细节展开，结尾必须重新点题"},
+        {h:"第 4 步 · 1 分钟砍细节", p:"细节砍到：两个人只讲一个（一句话带过）；围绕一个核心信息说，别什么都讲"},
+        {h:"🆘 卡壳救场词", p:"Anyway…（不管怎么说）——最好用的过渡词，忘词了用它接回去"},
+        {h:"⚠️ 常见错误", p:"讲两三分钟很详细，但面试官不知道你想表达什么——详细 ≠ 清晰"}
+      ]},
+    { type:"essay", title:"🎤 话题一范文：工作经历（1 分钟版）",
+      en:"I have got two main feelings about my previous internship. I felt a real sense of achievement, and it also left me curious about advanced manufacturing with AI. It was in Suzhou. Basically, I learned product knowledge and searched for potential cooperation opportunities in UK markets. I worked alongside my colleague Alan, who provided much support in my work. So I think this experience is precious and shapes my career plan.",
+      cn:"📖 结构：两个感受先行（achievement + curious）→ 地点+职责 → 一个人物细节 → 点题。注意：实习已结束，全篇用过去时（was/learned/searched/provided）"},
+    { type:"essay", title:"🎤 话题二范文：职业规划（1 分钟版）",
+      en:"Honestly, let me share my career plan. From 20 to 26, it is my trial and error period. I want to explore cutting-edge AI related industries and find a sector that truly interests me. Then from 26 to 35, I will settle down steadily, build up my capabilities and resources. I will keep up with fresh industry information and meanwhile follow a sensible financial plan. Finally, around 45, I hope to team up with other smart partners and launch my own business. So I think this timeline suits my pace and long-term goals.",
+      cn:"📖 Mike 的规划方法论：规划必须有「时间性」——20-26 试错期 → 26-35 稳步积累期 → 45 前后创业；拆到每段具体做什么，才不迷茫。计时 1 分钟讲完 ✅ 有点赶但清楚、有感染力"},
+    { type:"vocab", title:"📚 本课高频词",
+      items:[
+        {word:"credibility", phon:"/ˌkredəˈbɪləti/", cn:"n. 信誉，可信度", note:"医疗器械行业最看重"},
+        {word:"go through", phon:"", cn:"逐个过/确认", note:"We will go through them one by one."},
+        {word:"clarify", phon:"/ˈklærəfaɪ/", cn:"v. 澄清，说明", note:"Let me clarify this."},
+        {word:"validation", phon:"/ˌvælɪˈdeɪʃn/", cn:"n. 验证，确认", note:"会议高频词"},
+        {word:"expiry date", phon:"/ɪkˈspaɪəri deɪt/", cn:"n. 有效期", note:"One thing to note is…"},
+        {word:"transferable", phon:"/trænsˈfɜːrəbl/", cn:"adj. 可迁移的", note:"transferable skills 可迁移技能"},
+        {word:"trial and error", phon:"", cn:"试错", note:"trial and error period 试错期"},
+        {word:"settle down", phon:"", cn:"安定下来，稳扎稳打", note:""},
+        {word:"team up with", phon:"", cn:"与……组队", note:"team up with smart partners"},
+        {word:"get my foot in the door", phon:"", cn:"先入行，跨进门", note:"先入行再寻求 internal transfer 内部转岗"}
+      ]},
+    { type:"fix", title:"🔧 本课纠正：实习已结束 → 全篇过去时",
+      items:[
+        {bad:"So it is happy to cooperate with them.", good:"It was a pleasure to work with them.", cn:"时态错误 + 表达升级：a pleasure to work with"},
+        {bad:"…searching some potential opportunities（进行时）", good:"…searched for potential opportunities（过去时）", cn:"描述已结束的经历，动词统一用过去式"},
+        {bad:"He provide much support.", good:"He provided much support.", cn:"第三人称过去时：provide → provided"}
+      ]},
+    { type:"tips", title:"💼 求职实战情报（本课闲聊收获）",
+      items:[
+        {ic:"🏭", h:"目标行业", p:"半导体/先进制造/AI 相关；在申 CXMT 长鑫存储（合肥，存储芯片）、JH、珠三角芯片公司；深圳医疗电子也多（迈瑞、西门子、BD、GE）"},
+        {ic:"🎯", h:"入行策略", p:"半导体公司偏好理工科背景 → 策略：get my foot in the door 先入行（销售岗积累经验），再 internal transfer 转岗"},
+        {ic:"💡", h:"Mike 建议", p:"也可考虑医疗 AI 或现货型医疗产品（如电动轮椅整机，走 B 端/代理商模式，无需等长研发周期）"},
+        {ic:"💪", h:"金句", p:"Keep doing, keep going."},
+        {ic:"📅", h:"课程提醒", p:"还剩两节课，老师将按 Andy 的空闲时间排课"}
+      ]}
+  ]
+}
+/* ⬇️ 新增第 7 课模板（复制后修改 id / date / title / sections 即可）
+,
+{
+  id: 7,
+  date: "2026-11-29",
   title: "第 2 课标题",
   subtitle: "一句话副标题",
   sections: [
